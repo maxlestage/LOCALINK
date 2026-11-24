@@ -1,0 +1,89 @@
+# Tests every push, then merges the branch into master automatically.
+#
+# - site: format, clippy (server and browser), tests, the browser bundle
+#   (WebAssembly) and the static export;
+# - merge: when everything is green, the branch is merged into master (except master
+#   itself and branches named wip/...), then GitHub Pages and Heroku are deployed: a
+#   push made by a workflow starts no other workflow, so they are started explicitly.
+
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  site:
+    name: Website (fmt, clippy, tests, WebAssembly, static export)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+          components: clippy, rustfmt
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: site
+      - run: cargo fmt --check
+      - run: cargo clippy --all-targets -- -D warnings
+      - run: cargo clippy --lib --target wasm32-unknown-unknown -- -D warnings
+      - run: cargo test
+      - name: Browser bundle (WebAssembly)
+        run: |
+          cargo build --lib --target wasm32-unknown-unknown --profile wasm-release
+          version=$(grep -A1 '^name = "wasm-bindgen"$' Cargo.lock | sed -n 's/^version = "\(.*\)"$/\1/p')
+          curl -sSfL "https://github.com/wasm-bindgen/wasm-bindgen/releases/download/${version}/wasm-bindgen-${version}-x86_64-unknown-linux-musl.tar.gz" \
+            | tar -xz --strip-components=1 -C "$HOME/.cargo/bin"
+          wasm-bindgen --target web --no-typescript --remove-name-section --remove-producers-section \
+            --out-dir pkg target/wasm32-unknown-unknown/wasm-release/localink_site.wasm
+      - name: Static export
+        run: BASE_PATH="/${{ github.event.repository.name }}" cargo run --release -- export dist
+
+  merge:
+    name: Merge into master
+    needs: [site]
+    if: >-
+      github.event_name == 'push' && github.ref_name != 'master' &&
+      !startsWith(github.ref_name, 'wip/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+    concurrency:
+      group: merge-into-master
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: master
+          fetch-depth: 0
+      - name: Merge ${{ github.ref_name }}
+        env:
+          BRANCH: ${{ github.ref_name }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git merge-base --is-ancestor "$SHA" HEAD; then
+            echo "$BRANCH is already in master."
+          else
+            git merge --no-ff --no-edit "$SHA" -m "Merge branch '$BRANCH' into master (auto-merge)"
+            git push origin HEAD:master
+            echo "::notice title=Auto-merge::$BRANCH merged into master"
+          fi
+      # A push made with GITHUB_TOKEN starts no workflow: deploy by hand.
+      - name: Deploy master (GitHub Pages, Heroku)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run pages.yml --ref master --repo "$GITHUB_REPOSITORY"
+          gh workflow run heroku.yml --ref master --repo "$GITHUB_REPOSITORY"

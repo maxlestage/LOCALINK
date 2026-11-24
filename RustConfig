@@ -1,0 +1,11 @@
+# Heroku with the emk/rust buildpack
+# (https://elements.heroku.com/buildpacks/emk/heroku-buildpack-rust): the LOCALINK
+# website, built from site/.
+#
+# The buildpack sources this file, installs Rust, then would run a plain
+# `cargo build --release` at the root, where there is no crate: its build is skipped,
+# and heroku-build.sh builds the server and the browser bundle (WebAssembly) instead,
+# once Rust is installed.
+VERSION=stable
+RUST_SKIP_BUILD=1
+trap 'status=$?; if [ "$status" -eq 0 ]; then ENV_DIR="$ENV_DIR" bash "$BUILD_DIR/heroku-build.sh" || exit 1; fi' EXIT

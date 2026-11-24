@@ -1,0 +1,74 @@
+[package]
+name = "localink-site"
+version = "1.0.0"
+edition = "2024"
+rust-version = "1.95"
+publish = false
+description = "The presentation website of LOCALINK (Transfert): files between phones on the local network, a QR code to connect, no account, no cloud. Written in Rust with Paquets."
+
+# A standalone crate: the iOS app (Swift) lives apart from it.
+[workspace]
+
+# The library holds what the server and the browser share (texts, routes, islands) and,
+# compiled to WebAssembly, the browser bundle (islands, 2D canvas, page motion). The
+# binary is the server (Heroku) and the static export (GitHub Pages).
+[lib]
+name = "localink_site"
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "localink-site"
+path = "src/main.rs"
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+paquets = { git = "https://github.com/maxlestage/Paquets" }
+tokio = { version = "1.54", features = ["macros", "rt-multi-thread"] }
+qrcode = { version = "0.15", default-features = false, features = ["std"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+paquets = { git = "https://github.com/maxlestage/Paquets", default-features = false, features = ["client"] }
+wasm-bindgen = "=0.2.130"
+js-sys = "0.3.107"
+web-sys = { version = "0.3.107", features = [
+  "AddEventListenerOptions",
+  "CanvasRenderingContext2d",
+  "CssStyleDeclaration",
+  "Document",
+  "DomRect",
+  "DomStringMap",
+  "DomTokenList",
+  "Element",
+  "Event",
+  "EventTarget",
+  "HtmlCanvasElement",
+  "HtmlDetailsElement",
+  "HtmlElement",
+  "IntersectionObserver",
+  "IntersectionObserverEntry",
+  "IntersectionObserverInit",
+  "KeyboardEvent",
+  "Location",
+  "MediaQueryList",
+  "MouseEvent",
+  "Navigator",
+  "NodeList",
+  "PointerEvent",
+  "ScrollBehavior",
+  "ScrollToOptions",
+  "Window",
+] }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+
+# The browser bundle: `cargo build --lib --target wasm32-unknown-unknown --profile wasm-release`.
+[profile.wasm-release]
+inherits = "release"
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+# wasm-bindgen reads the `target_features` section, which stripping removes; it drops
+# the names and producers sections itself.
+strip = false

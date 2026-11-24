@@ -1,0 +1,14 @@
+{
+  "name": "LOCALINK",
+  "description": "The presentation website of LOCALINK: file transfer between phones on the local network, a QR code to connect, no account, no cloud. Written in Rust with Paquets.",
+  "repository": "https://github.com/maxlestage/LOCALINK",
+  "logo": "https://raw.githubusercontent.com/maxlestage/LOCALINK/master/site/public/icons/icon-192.png",
+  "keywords": ["rust", "wasm", "pwa", "paquets", "localink"],
+  "stack": "heroku-26",
+  "buildpacks": [
+    {
+      "url": "emk/rust"
+    }
+  ],
+  "success_url": "/"
+}
