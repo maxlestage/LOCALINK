@@ -4,7 +4,7 @@
 
 # LOCALINK — Transfert
 
-**Transfert de fichiers entre téléphones sur le réseau, QR pour établir une connexion, sans compte et sans stockage cloud.**
+**Transfert de fichiers entre téléphones sur le réseau, connexion par QR code ou par code, sans compte. À distance, le partage passe par le serveur de l'application et s'efface automatiquement après 2 minutes.**
 
 **Français** · [English](#english) · [Español](#español)
 
@@ -37,6 +37,9 @@ Swift.
   consultable hors ligne.
 - **Pied de page complet** : produit, ressources, légal, contact, installation, langues,
   statut, retour en haut avec anneau de progression.
+- **Connexion par code et partage éphémère** : un vrai code LOCALINK et son QR code, régénérés
+  dans le navigateur, et un compte à rebours de 2 minutes (accéléré) jusqu'à l'effacement du
+  fichier sur le serveur.
 - **Pages légales** : confidentialité, conditions d'utilisation, mentions légales.
 - **Zéro cookie, zéro traceur** : polices et images servies par le site lui-même, CSP stricte.
 
@@ -101,7 +104,7 @@ cargo fmt --check && cargo clippy --all-targets -- -D warnings && cargo test
 ## English
 
 The **presentation website** of LOCALINK — file transfer between phones on the local network,
-a QR code to connect, no account, no cloud storage — written **only in Rust** with
+a QR code or a code to connect, no account; remote shares go through the app server and are erased after 2 minutes — written **only in Rust** with
 [Paquets](https://github.com/maxlestage/Paquets): server-rendered pages and a WebAssembly
 bundle for every animation (2D canvas network, transfer simulator, scroll reveals…). The
 iPhone app is written in Swift. Mobile first with no horizontal scrolling, French, English
@@ -113,7 +116,7 @@ automatically, then deployed.
 ## Español
 
 El **sitio de presentación** de LOCALINK — transferencia de archivos entre teléfonos por la
-red local, un código QR para conectarse, sin cuenta y sin almacenamiento en la nube — escrito
+red local, un código QR o un código para conectarse, sin cuenta; lo compartido a distancia pasa por el servidor de la app y se borra a los 2 minutos — escrito
 **solo en Rust** con [Paquets](https://github.com/maxlestage/Paquets): páginas generadas en el
 servidor y un bundle WebAssembly para todas las animaciones. La app de iPhone está escrita en
 Swift. Pensado primero para móvil y sin desplazamiento horizontal, en francés, inglés y

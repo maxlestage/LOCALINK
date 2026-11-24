@@ -11,8 +11,11 @@ fn lang(props: &str) -> Lang {
 }
 
 /// Every island, registered under the name used by [`island`].
-pub const ISLANDS: [(&str, paquets::active::IslandFn); 2] =
-    [("simulator", simulator), ("install", install)];
+pub const ISLANDS: [(&str, paquets::active::IslandFn); 3] = [
+    ("simulator", simulator),
+    ("share", share),
+    ("install", install),
+];
 
 // ----- Transfer simulator ----------------------------------------------------------------
 
@@ -187,6 +190,202 @@ pub fn simulator(props: &str) -> Node {
         .into()
 }
 
+// ----- Ephemeral sharing ----------------------------------------------------------------
+
+/// How long a share stays on the server, in seconds.
+pub const SHARE_SECONDS: u32 = 120;
+/// The code rendered by the server; the browser draws a new one once the island starts.
+pub const FIRST_CODE: &str = "7KQ4-M9XP";
+/// The characters of a code: no 0/O, 1/I/L, which are easy to mix up when typed.
+pub const ALPHABET: &[u8] = b"23456789ABCDEFGHJKMNPQRSTUVWXYZ";
+
+/// A LOCALINK code, `XXXX-XXXX`, from a source of numbers in `[0, 1)`.
+pub fn make_code(mut random: impl FnMut() -> f64) -> String {
+    let mut code = String::with_capacity(9);
+    for i in 0..8 {
+        if i == 4 {
+            code.push('-');
+        }
+        let index = (random() * ALPHABET.len() as f64) as usize % ALPHABET.len();
+        code.push(char::from(ALPHABET[index]));
+    }
+    code
+}
+
+/// `2:00`, `0:07`.
+pub fn clock(seconds: u32) -> String {
+    format!("{}:{:02}", seconds / 60, seconds % 60)
+}
+
+/// The QR code of a LOCALINK code.
+pub fn code_qr(code: &str, label: &str) -> String {
+    crate::qr::svg(&format!("LOCALINK:{code}"), "qr qr--code", label).unwrap_or_default()
+}
+
+/// A code and its QR code, a shared file whose 2 minutes run out (sped up), then
+/// vanish from the server.
+pub fn share(props: &str) -> Node {
+    let lang = lang(props);
+    let t = lang.texts();
+    let code = use_state(FIRST_CODE.to_owned());
+    let left = use_state(SHARE_SECONDS);
+    let copied = use_state(false);
+    // The current countdown: a new share stops the previous one.
+    let generation = use_state(0u32);
+    // Only the browser runs countdowns.
+    #[cfg(not(target_arch = "wasm32"))]
+    let _ = generation;
+
+    let restart = move || {
+        #[cfg(target_arch = "wasm32")]
+        {
+            code.set(make_code(js_sys::Math::random));
+            left.set(SHARE_SECONDS);
+            let current = generation.get() + 1;
+            generation.set(current);
+            crate::client::share::countdown(move |seconds| {
+                if generation.get() != current {
+                    return false;
+                }
+                left.set(seconds);
+                true
+            });
+        }
+    };
+
+    div()
+        .class("share")
+        .class_if("is-erased", move || left.get() == 0)
+        .class_if("is-ending", move || (1..=20).contains(&left.get()))
+        .attr_dyn("style", move || {
+            format!(
+                "--left:{:.4}",
+                f64::from(left.get()) / f64::from(SHARE_SECONDS)
+            )
+        })
+        .on_mount(move |_root| {
+            #[cfg(target_arch = "wasm32")]
+            crate::client::share::when_visible(_root, restart);
+        })
+        .child(
+            div()
+                .class("share__card")
+                .child(p().class("share__label").text(t.share_code_label))
+                .child(
+                    p().class("share__code")
+                        .attr("aria-live", "polite")
+                        .text_dyn(move || code.get()),
+                )
+                .child(
+                    div()
+                        .class("share__qr")
+                        .html_dyn(move || code_qr(&code.get(), t.share_code_label)),
+                )
+                .child(
+                    p().class("share__path")
+                        .text_dyn(move || format!("localink · {}", code.get().replace('-', ""))),
+                )
+                .child(
+                    div()
+                        .class("share__actions")
+                        .child(
+                            button()
+                                .class("chip share__copy")
+                                .attr("type", "button")
+                                .on_click(move |_| {
+                                    #[cfg(target_arch = "wasm32")]
+                                    {
+                                        crate::client::share::copy(&code.get());
+                                        copied.set(true);
+                                        crate::client::later(1600, move || copied.set(false));
+                                    }
+                                })
+                                .child(fragment_dyn(move || {
+                                    vec![icon(if copied.get() { "check" } else { "copy" }).into()]
+                                }))
+                                .child(span().text_dyn(move || {
+                                    if copied.get() {
+                                        t.share_copied
+                                    } else {
+                                        t.share_copy
+                                    }
+                                    .to_owned()
+                                })),
+                        )
+                        .child(
+                            button()
+                                .class("chip share__new")
+                                .attr("type", "button")
+                                .on_click(move |_| restart())
+                                .child(icon("refresh"))
+                                .child(span().text(t.share_new)),
+                        ),
+                ),
+        )
+        .child(
+            div()
+                .class("share__drop")
+                .child(
+                    div()
+                        .class("share__server")
+                        .child(icon("server"))
+                        .child(strong().text(t.share_server)),
+                )
+                .child(
+                    div()
+                        .class("share__file")
+                        .child(span().class("share__file-icon").child(icon("image")))
+                        .child(
+                            span()
+                                .class("share__file-meta")
+                                .child(strong().text(t.files[0]))
+                                .child(small().text(crate::islands::size(48, lang))),
+                        )
+                        .child(
+                            span()
+                                .class("share__dust")
+                                .attr("aria-hidden", "true")
+                                .children((0..8).map(|i| span().style(format!("--i:{i}")))),
+                        ),
+                )
+                .child(
+                    div()
+                        .class("share__timer")
+                        .attr("role", "timer")
+                        .child(
+                            span()
+                                .class("share__ring")
+                                .attr("aria-hidden", "true")
+                                .child(span().class("share__ring-inner")),
+                        )
+                        .child(
+                            span()
+                                .class("share__clock")
+                                .child(small().text_dyn(move || {
+                                    if left.get() == 0 {
+                                        t.share_erased
+                                    } else {
+                                        t.share_expires
+                                    }
+                                    .to_owned()
+                                }))
+                                .child(strong().text_dyn(move || clock(left.get()))),
+                        ),
+                )
+                .child(
+                    button()
+                        .class("btn btn--ghost share__again")
+                        .attr("type", "button")
+                        .bool_attr("hidden", move || left.get() != 0)
+                        .on_click(move |_| restart())
+                        .child(span().class("btn__label").text(t.share_again))
+                        .child(icon("refresh")),
+                )
+                .child(p().class("share__demo").text(t.share_demo)),
+        )
+        .into()
+}
+
 // ----- Install (PWA) ------------------------------------------------------------------
 
 /// The "install the site" button of the footer: the browser's own prompt where it has
@@ -240,6 +439,30 @@ mod tests {
     use super::*;
 
     #[test]
+    fn codes_and_clocks() {
+        let mut n = 0.0;
+        let code = make_code(|| {
+            n += 0.13;
+            n % 1.0
+        });
+        assert_eq!(code.len(), 9);
+        assert_eq!(&code[4..5], "-");
+        assert!(
+            code.bytes()
+                .filter(|&b| b != b'-')
+                .all(|b| ALPHABET.contains(&b))
+        );
+        assert_eq!(make_code(|| 0.0), "2222-2222");
+        assert_eq!(make_code(|| 0.999_999), "ZZZZ-ZZZZ");
+        assert_eq!(clock(120), "2:00");
+        assert_eq!(clock(7), "0:07");
+        assert_eq!(clock(0), "0:00");
+        for c in *b"0O1IL" {
+            assert!(!ALPHABET.contains(&c));
+        }
+    }
+
+    #[test]
     fn sizes_are_localized() {
         assert_eq!(size(48, Lang::Fr), "4,8 Mo");
         assert_eq!(size(864, Lang::En), "86.4 MB");
@@ -254,6 +477,10 @@ mod tests {
                 assert!(html.contains("<active-island"), "{name}");
             }
         }
+        let html = paquets::active::island("share", "fr", share).render();
+        assert!(html.contains(FIRST_CODE));
+        assert!(html.contains("2:00"));
+        assert!(html.contains("qr qr--code"));
         let html = paquets::active::island("simulator", "fr", simulator).render();
         assert!(html.contains("IMG_2048.HEIC"));
         assert!(html.contains("Envoyer"));

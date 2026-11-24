@@ -87,10 +87,17 @@ async fn the_home_page_has_every_section() {
     for lang in Lang::ALL {
         let html = client.get(&format!("/{}/", lang.code())).await.text();
         let t = lang.texts();
-        for id in ["how", "demo", "features", "privacy", "app", "faq"] {
+        for id in ["how", "demo", "share", "features", "privacy", "app", "faq"] {
             assert!(html.contains(&format!("id=\"{id}\"")), "{id}");
         }
         assert!(html.contains(r#"<active-island data-island="simulator""#));
+        // Connection by code, and sharing erased after 2 minutes.
+        assert!(html.contains(r#"<active-island data-island="share""#));
+        assert!(html.contains(localink_site::islands::FIRST_CODE));
+        assert!(html.contains("2:00"));
+        assert!(html.contains("class=\"qr qr--code\""));
+        assert!(html.contains("route--remote"));
+        assert!(html.contains(&escape(t.share_label)));
         assert!(html.contains("data-network"), "the 2D canvas");
         assert!(html.contains("class=\"qr qr--big\""), "the QR code");
         assert!(html.contains("animateMotion"), "the privacy diagrams");
