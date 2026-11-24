@@ -230,6 +230,8 @@ pub fn share(props: &str) -> Node {
     let code = use_state(FIRST_CODE.to_owned());
     let left = use_state(SHARE_SECONDS);
     let copied = use_state(false);
+    // How the contact connects: 0, the code; 1, the QR code.
+    let method = use_state(0usize);
     // The current countdown: a new share stops the previous one.
     let generation = use_state(0u32);
     // Only the browser runs countdowns.
@@ -272,18 +274,54 @@ pub fn share(props: &str) -> Node {
                 .class("share__card")
                 .child(p().class("share__label").text(t.share_code_label))
                 .child(
-                    p().class("share__code")
-                        .attr("aria-live", "polite")
-                        .text_dyn(move || code.get()),
+                    div()
+                        .class("share__switch")
+                        .attr("role", "tablist")
+                        .attr("aria-label", t.share_choose)
+                        .attr_dyn("style", move || format!("--idx:{}", method.get()))
+                        .child(span().class("share__pill").attr("aria-hidden", "true"))
+                        .children(
+                            [(0usize, t.share_tab_code, "key"), (1, t.share_tab_qr, "qr")].map(
+                                |(i, label, icon_name)| {
+                                    button()
+                                        .class("share__tab")
+                                        .class_if("is-active", move || method.get() == i)
+                                        .attr("type", "button")
+                                        .attr("role", "tab")
+                                        .attr_dyn("aria-selected", move || {
+                                            (method.get() == i).to_string()
+                                        })
+                                        .on_click(move |_| method.set(i))
+                                        .child(icon(icon_name))
+                                        .child(span().text(label))
+                                },
+                            ),
+                        ),
                 )
                 .child(
                     div()
-                        .class("share__qr")
-                        .html_dyn(move || code_qr(&code.get(), t.share_code_label)),
+                        .class("share__view share__view--code")
+                        .attr("role", "tabpanel")
+                        .bool_attr("hidden", move || method.get() != 0)
+                        .child(
+                            p().class("share__code")
+                                .attr("aria-live", "polite")
+                                .text_dyn(move || code.get()),
+                        )
+                        .child(p().class("share__path").text_dyn(move || {
+                            format!("localink · {}", code.get().replace('-', ""))
+                        })),
                 )
                 .child(
-                    p().class("share__path")
-                        .text_dyn(move || format!("localink · {}", code.get().replace('-', ""))),
+                    div()
+                        .class("share__view share__view--qr")
+                        .attr("role", "tabpanel")
+                        .bool_attr("hidden", move || method.get() != 1)
+                        .child(
+                            div()
+                                .class("share__qr")
+                                .html_dyn(move || code_qr(&code.get(), t.share_code_label)),
+                        ),
                 )
                 .child(
                     div()

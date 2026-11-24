@@ -17,6 +17,9 @@ if [ "$target" != target ]; then
 fi
 echo "       target/release/localink-site ready"
 
+echo "-----> Minifying the stylesheet"
+target/release/localink-site minify public/site.css
+
 echo "-----> Building the browser bundle (WebAssembly)"
 rustup target add wasm32-unknown-unknown
 cargo build --lib --target wasm32-unknown-unknown --profile wasm-release
