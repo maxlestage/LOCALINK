@@ -51,6 +51,8 @@ jobs:
             | tar -xz --strip-components=1 -C "$HOME/.cargo/bin"
           wasm-bindgen --target web --no-typescript --remove-name-section --remove-producers-section \
             --out-dir pkg target/wasm32-unknown-unknown/wasm-release/localink_site.wasm
+      - name: Minify the stylesheet
+        run: cargo run --release -- minify public/site.css
       - name: Static export
         env:
           BASE_PATH: ${{ steps.pages.outputs.base_path }}

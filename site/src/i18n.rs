@@ -161,6 +161,9 @@ pub struct Texts {
     pub share_title: &'static str,
     pub share_lead: &'static str,
     pub share_code_label: &'static str,
+    pub share_choose: &'static str,
+    pub share_tab_code: &'static str,
+    pub share_tab_qr: &'static str,
     pub share_new: &'static str,
     pub share_copy: &'static str,
     pub share_copied: &'static str,
@@ -246,8 +249,8 @@ pub struct Texts {
 // ----- Français ---------------------------------------------------------------------
 
 pub static FR: Texts = Texts {
-    meta_title: "LOCALINK — Transfert de fichiers entre téléphones, par QR code ou par code",
-    meta_description: "Transférez vos fichiers entre téléphones sur le réseau local, ou partagez-les à distance : effacés du serveur après 2 minutes. QR code ou code, sans compte.",
+    meta_title: "LOCALINK — Transfert de fichiers entre téléphones, près ou loin, par QR code ou par code",
+    meta_description: "Envoyez vos fichiers d'un téléphone à l'autre, sur le même réseau ou à distance. QR code ou code au choix, sans compte, effacés du serveur après 2 minutes.",
     skip: "Aller au contenu",
     nav_how: "Fonctionnement",
     nav_features: "Atouts",
@@ -259,16 +262,16 @@ pub static FR: Texts = Texts {
     nav_home: "Accueil",
     nav_menu: "Menu",
     nav_cta: "Découvrir",
-    loader: "Connexion au réseau local…",
+    loader: "Mise en relation…",
     lang_label: "Langue",
     hero_eyebrow: "Transfert",
     hero_title: ["Vos fichiers,", "d'un téléphone à l'autre."],
     hero_send: "Envoyez vos",
     hero_words: ["photos", "vidéos", "documents", "musiques"],
-    hero_lead: "LOCALINK fait passer vos fichiers directement entre deux téléphones du même réseau. Scannez un QR code ou tapez un code pour vous connecter. Loin l'un de l'autre ? Partagez via le serveur : tout s'efface au bout de 2 minutes.",
+    hero_lead: "LOCALINK envoie vos fichiers d'un téléphone à l'autre, où que vous soyez. Sur le même réseau, ils passent en direct ; à distance, par le serveur, qui les efface au bout de 2 minutes. Pour vous connecter, choisissez : QR code ou code.",
     hero_primary: "Comment ça marche",
     hero_secondary: "L'app iPhone",
-    hero_badges: ["Sans compte", "QR code ou code", "Effacé en 2 min"],
+    hero_badges: ["Sans compte", "Près ou loin", "Effacé en 2 min"],
     hero_scroll: "Défiler",
     phone_sender: "Envoi",
     phone_receiver: "Réception",
@@ -280,26 +283,26 @@ pub static FR: Texts = Texts {
     marquee: [
         "Sans compte",
         "QR code ou code",
-        "Réseau local",
+        "Près ou loin",
         "Effacé après 2 minutes",
-        "Direct d'appareil à appareil",
+        "Direct en réseau local",
         "Tous types de fichiers",
     ],
     how_label: "Fonctionnement",
     how_title: "Trois gestes, zéro inscription.",
-    how_lead: "Pas d'identifiant à retenir : les deux téléphones se trouvent grâce à un QR code ou à un code court, puis échangent en direct.",
+    how_lead: "Pas d'identifiant à retenir : les deux téléphones se relient par QR code ou par code, au choix, puis échangent.",
     steps: [
         item(
             "Ouvrez LOCALINK",
-            "Sur les deux téléphones, connectés au même réseau Wi‑Fi ou au partage de connexion de l'un d'eux.",
+            "Sur les deux téléphones, qu'ils soient côte à côte ou à l'autre bout du pays.",
         ),
         item(
-            "Scannez ou tapez le code",
-            "Le téléphone qui reçoit affiche un QR code et son code LOCALINK. L'autre le scanne, ou tape le code : la connexion est établie.",
+            "QR code ou code, au choix",
+            "Le téléphone qui reçoit affiche son QR code et son code LOCALINK. L'autre choisit : scanner le QR code ou taper le code.",
         ),
         item(
             "Envoyez",
-            "Choisissez vos fichiers : ils passent directement d'un appareil à l'autre, sans détour par un serveur.",
+            "Sur le même réseau, les fichiers passent directement d'un appareil à l'autre. À distance, ils transitent par le serveur et s'effacent après 2 minutes.",
         ),
     ],
     qr_caption: "Un vrai QR code : scannez-le pour ouvrir ce site sur votre téléphone.",
@@ -318,8 +321,11 @@ pub static FR: Texts = Texts {
     sim_note: "Démonstration : rien ne quitte votre navigateur.",
     share_label: "Partage éphémère",
     share_title: "À distance, effacé en 2 minutes.",
-    share_lead: "Pas sur le même réseau ? Déposez votre fichier sur le serveur LOCALINK et donnez votre code. Votre contact le récupère, puis tout s'efface automatiquement au bout de 2 minutes.",
+    share_lead: "Pas à côté l'un de l'autre ? Déposez votre fichier sur le serveur LOCALINK et partagez, au choix, votre code ou votre QR code. Votre contact le récupère, puis tout s'efface automatiquement au bout de 2 minutes.",
     share_code_label: "Mon code LOCALINK",
+    share_choose: "Se connecter avec",
+    share_tab_code: "Code",
+    share_tab_qr: "QR code",
     share_new: "Nouveau code",
     share_copy: "Copier le code",
     share_copied: "Code copié",
@@ -344,7 +350,7 @@ pub static FR: Texts = Texts {
     ],
     feat_label: "Atouts",
     feat_title: "Simple comme un QR code.",
-    feat_lead: "Tout ce qu'il faut pour partager un fichier avec la personne en face de vous, et rien de plus.",
+    feat_lead: "Tout ce qu'il faut pour partager un fichier avec quelqu'un, à côté de vous ou loin, et rien de plus.",
     features: [
         item(
             "Aucun compte",
@@ -356,15 +362,15 @@ pub static FR: Texts = Texts {
         ),
         item(
             "Connexion par code",
-            "Pas envie de scanner ? Tapez le code LOCALINK de l'autre téléphone et vous êtes connectés.",
+            "Pas envie de scanner ? Choisissez le code : tapez celui de l'autre téléphone et vous êtes connectés.",
         ),
         item(
-            "Réseau local",
-            "En local, le transfert passe directement par votre Wi‑Fi ou un partage de connexion, sans serveur ni Internet.",
+            "En direct sur le réseau",
+            "Sur le même Wi‑Fi ou un partage de connexion, le transfert passe directement d'un téléphone à l'autre, sans serveur.",
         ),
         item(
-            "Partage éphémère",
-            "À distance, le fichier passe par le serveur LOCALINK et s'efface automatiquement au bout de 2 minutes.",
+            "Partage à distance",
+            "Loin l'un de l'autre ? Le fichier passe par le serveur LOCALINK et s'efface automatiquement au bout de 2 minutes.",
         ),
         item(
             "Rien n'est conservé",
@@ -397,7 +403,7 @@ pub static FR: Texts = Texts {
     num_title: "Le partage, réduit à l'essentiel.",
     numbers: [
         figure(0, "", "compte à créer"),
-        figure(1, "", "QR code ou code pour se connecter"),
+        figure(1, "", "QR code ou code, au choix"),
         figure(2, "min", "avant l'effacement automatique"),
         figure(0, "", "copie conservée"),
     ],
@@ -424,15 +430,15 @@ pub static FR: Texts = Texts {
         ),
         item(
             "Comment se connecter ?",
-            "Scannez le QR code affiché par l'autre téléphone, ou tapez son code LOCALINK : les deux mènent à la même connexion.",
-        ),
-        item(
-            "Mes fichiers passent-ils par un serveur ?",
-            "En local, non : ils vont directement d'un téléphone à l'autre. Seul le partage à distance passe par le serveur LOCALINK, et il est effacé au bout de 2 minutes.",
+            "Au choix : scannez le QR code affiché par l'autre téléphone, ou tapez son code LOCALINK. Les deux mènent à la même connexion.",
         ),
         item(
             "Les deux téléphones doivent-ils être sur le même réseau ?",
-            "Pour le transfert direct, oui : le même Wi‑Fi ou un partage de connexion. Sinon, utilisez le partage à distance.",
+            "Non. Sur le même réseau, le transfert est direct ; sinon, LOCALINK passe par son serveur, avec un effacement automatique au bout de 2 minutes.",
+        ),
+        item(
+            "Mes fichiers passent-ils par un serveur ?",
+            "Sur le même réseau, non : ils vont directement d'un téléphone à l'autre. À distance, ils passent par le serveur LOCALINK et sont effacés au bout de 2 minutes.",
         ),
         item(
             "Que se passe-t-il après 2 minutes ?",
@@ -440,7 +446,7 @@ pub static FR: Texts = Texts {
         ),
         item(
             "Faut-il une connexion Internet ?",
-            "Pas pour le transfert local, qui reste sur votre réseau. Le partage à distance, lui, passe par Internet.",
+            "Sur le même réseau, le transfert s'en passe. À distance, il en faut une, puisque le fichier passe par le serveur.",
         ),
         item(
             "Quels fichiers puis-je envoyer ?",
@@ -451,10 +457,10 @@ pub static FR: Texts = Texts {
             "LOCALINK est une application native pour iPhone, écrite en Swift.",
         ),
     ],
-    cta_title: "Partagez comme vous parlez : en face à face.",
-    cta_lead: "Un QR code ou un code, et vos fichiers changent de téléphone. À distance, ils s'effacent en 2 minutes.",
+    cta_title: "Partagez, côte à côte ou à distance.",
+    cta_lead: "QR code ou code, au choix, et vos fichiers changent de téléphone. À distance, ils s'effacent en 2 minutes.",
     cta_button: "Voir comment ça marche",
-    footer_tagline: "Transfert de fichiers entre téléphones : en direct sur le réseau local, ou à distance avec effacement automatique après 2 minutes. QR code ou code, sans compte.",
+    footer_tagline: "Transfert de fichiers entre téléphones, côte à côte ou à distance. QR code ou code au choix, sans compte, effacement automatique du serveur après 2 minutes.",
     footer_product: "Produit",
     footer_resources: "Ressources",
     footer_legal: "Légal",
@@ -508,7 +514,7 @@ pub static FR: Texts = Texts {
         sections: &[
             item(
                 "Objet",
-                "Ce site présente LOCALINK, une application de transfert de fichiers entre téléphones sur un réseau local.",
+                "Ce site présente LOCALINK, une application de transfert de fichiers entre téléphones, sur le même réseau ou à distance.",
             ),
             item(
                 "Accès",
@@ -558,14 +564,14 @@ pub static FR: Texts = Texts {
     nf_text: "Cette page n'est pas sur le réseau. Elle a peut-être changé d'adresse.",
     nf_back: "Revenir à l'accueil",
     pick_title: "Choisissez votre langue",
-    pick_text: "Transfert de fichiers entre téléphones, par QR code ou par code, sans compte.",
+    pick_text: "Transfert de fichiers entre téléphones, près ou loin, sans compte.",
 };
 
 // ----- English ----------------------------------------------------------------------
 
 pub static EN: Texts = Texts {
-    meta_title: "LOCALINK — File transfer between phones, with a QR code or a code",
-    meta_description: "Send files between phones on your local network, or share them remotely: erased from the server after 2 minutes. A QR code or a code, no account.",
+    meta_title: "LOCALINK — File transfer between phones, near or far, with a QR code or a code",
+    meta_description: "Send files from one phone to another, on the same network or far apart. A QR code or a code, your choice, no account, erased from the server after 2 minutes.",
     skip: "Skip to content",
     nav_how: "How it works",
     nav_features: "Features",
@@ -577,16 +583,16 @@ pub static EN: Texts = Texts {
     nav_home: "Home",
     nav_menu: "Menu",
     nav_cta: "Discover",
-    loader: "Joining the local network…",
+    loader: "Connecting…",
     lang_label: "Language",
     hero_eyebrow: "Transfer",
     hero_title: ["Your files,", "from one phone to another."],
     hero_send: "Send your",
     hero_words: ["photos", "videos", "documents", "music"],
-    hero_lead: "LOCALINK sends your files straight between two phones on the same network. Scan a QR code or type a code to connect. Far apart? Share through the server: everything is erased after 2 minutes.",
+    hero_lead: "LOCALINK sends your files from one phone to another, wherever you are. On the same network, they go straight across; far apart, through the server, which erases them after 2 minutes. To connect, you choose: QR code or code.",
     hero_primary: "How it works",
     hero_secondary: "The iPhone app",
-    hero_badges: ["No account", "QR code or code", "Erased in 2 min"],
+    hero_badges: ["No account", "Near or far", "Erased in 2 min"],
     hero_scroll: "Scroll",
     phone_sender: "Sending",
     phone_receiver: "Receiving",
@@ -598,26 +604,26 @@ pub static EN: Texts = Texts {
     marquee: [
         "No account",
         "QR code or code",
-        "Local network",
+        "Near or far",
         "Erased after 2 minutes",
-        "Device to device",
+        "Direct on a local network",
         "Any kind of file",
     ],
     how_label: "How it works",
     how_title: "Three steps, zero sign-up.",
-    how_lead: "No username to remember: the two phones find each other with a QR code or a short code, then talk directly.",
+    how_lead: "No username to remember: the two phones link up with a QR code or a code, your choice, then exchange.",
     steps: [
         item(
             "Open LOCALINK",
-            "On both phones, connected to the same Wi‑Fi network or to the hotspot of one of them.",
+            "On both phones, side by side or at the other end of the country.",
         ),
         item(
-            "Scan or type the code",
-            "The receiving phone shows a QR code and its LOCALINK code. The other one scans it, or types the code: you're connected.",
+            "QR code or code, your choice",
+            "The receiving phone shows its QR code and its LOCALINK code. The other one chooses: scan the QR code or type the code.",
         ),
         item(
             "Send",
-            "Pick your files: they go straight from one device to the other, without a detour through a server.",
+            "On the same network, files go straight from one device to the other. Far apart, they go through the server and are erased after 2 minutes.",
         ),
     ],
     qr_caption: "A real QR code: scan it to open this site on your phone.",
@@ -636,8 +642,11 @@ pub static EN: Texts = Texts {
     sim_note: "Demo: nothing leaves your browser.",
     share_label: "Ephemeral sharing",
     share_title: "Far apart, erased in 2 minutes.",
-    share_lead: "Not on the same network? Drop your file on the LOCALINK server and give your code. Your contact picks it up, then everything is erased automatically after 2 minutes.",
+    share_lead: "Not next to each other? Drop your file on the LOCALINK server and share your code or your QR code, your choice. Your contact picks it up, then everything is erased automatically after 2 minutes.",
     share_code_label: "My LOCALINK code",
+    share_choose: "Connect with",
+    share_tab_code: "Code",
+    share_tab_qr: "QR code",
     share_new: "New code",
     share_copy: "Copy the code",
     share_copied: "Code copied",
@@ -659,7 +668,7 @@ pub static EN: Texts = Texts {
     ],
     feat_label: "Features",
     feat_title: "As simple as a QR code.",
-    feat_lead: "Everything you need to share a file with the person in front of you, and nothing more.",
+    feat_lead: "Everything you need to share a file with someone, next to you or far away, and nothing more.",
     features: [
         item(
             "No account",
@@ -671,15 +680,15 @@ pub static EN: Texts = Texts {
         ),
         item(
             "Code pairing",
-            "Don't feel like scanning? Type the other phone's LOCALINK code and you're connected.",
+            "Don't feel like scanning? Choose the code: type the other phone's code and you're connected.",
         ),
         item(
-            "Local network",
-            "Locally, transfers go straight through your Wi‑Fi or a hotspot, with no server and no Internet.",
+            "Direct on the network",
+            "On the same Wi‑Fi or a hotspot, the transfer goes straight from one phone to the other, with no server.",
         ),
         item(
-            "Ephemeral sharing",
-            "Remotely, the file goes through the LOCALINK server and is erased automatically after 2 minutes.",
+            "Remote sharing",
+            "Far apart? The file goes through the LOCALINK server and is erased automatically after 2 minutes.",
         ),
         item(
             "Nothing is kept",
@@ -712,7 +721,7 @@ pub static EN: Texts = Texts {
     num_title: "Sharing, down to the essentials.",
     numbers: [
         figure(0, "", "account to create"),
-        figure(1, "", "QR code or code to connect"),
+        figure(1, "", "QR code or code, your choice"),
         figure(2, "min", "before automatic erasure"),
         figure(0, "", "copy kept"),
     ],
@@ -739,15 +748,15 @@ pub static EN: Texts = Texts {
         ),
         item(
             "How do I connect?",
-            "Scan the QR code shown by the other phone, or type its LOCALINK code: both lead to the same connection.",
-        ),
-        item(
-            "Do my files go through a server?",
-            "Locally, no: they go straight from one phone to the other. Only remote sharing goes through the LOCALINK server, and it is erased after 2 minutes.",
+            "Your choice: scan the QR code shown by the other phone, or type its LOCALINK code. Both lead to the same connection.",
         ),
         item(
             "Do both phones need to be on the same network?",
-            "For a direct transfer, yes: the same Wi‑Fi or a hotspot. Otherwise, use remote sharing.",
+            "No. On the same network, the transfer is direct; otherwise LOCALINK goes through its server, with automatic erasure after 2 minutes.",
+        ),
+        item(
+            "Do my files go through a server?",
+            "On the same network, no: they go straight from one phone to the other. Far apart, they go through the LOCALINK server and are erased after 2 minutes.",
         ),
         item(
             "What happens after 2 minutes?",
@@ -755,7 +764,7 @@ pub static EN: Texts = Texts {
         ),
         item(
             "Do I need an Internet connection?",
-            "Not for a local transfer, which stays on your network. Remote sharing goes through the Internet.",
+            "On the same network, the transfer does without. Far apart, you need one, since the file goes through the server.",
         ),
         item(
             "Which files can I send?",
@@ -766,10 +775,10 @@ pub static EN: Texts = Texts {
             "LOCALINK is a native iPhone app, written in Swift.",
         ),
     ],
-    cta_title: "Share the way you talk: face to face.",
-    cta_lead: "A QR code or a code, and your files change phones. Remotely, they are erased in 2 minutes.",
+    cta_title: "Share, side by side or far apart.",
+    cta_lead: "A QR code or a code, your choice, and your files change phones. Far apart, they are erased in 2 minutes.",
     cta_button: "See how it works",
-    footer_tagline: "File transfer between phones: directly over the local network, or remotely with automatic erasure after 2 minutes. A QR code or a code, no account.",
+    footer_tagline: "File transfer between phones, side by side or far apart. A QR code or a code, your choice, no account, automatic erasure from the server after 2 minutes.",
     footer_product: "Product",
     footer_resources: "Resources",
     footer_legal: "Legal",
@@ -823,7 +832,7 @@ pub static EN: Texts = Texts {
         sections: &[
             item(
                 "Purpose",
-                "This site presents LOCALINK, an app to transfer files between phones over a local network.",
+                "This site presents LOCALINK, an app to transfer files between phones, on the same network or far apart.",
             ),
             item(
                 "Access",
@@ -870,14 +879,14 @@ pub static EN: Texts = Texts {
     nf_text: "This page is not on the network. It may have moved.",
     nf_back: "Back to the home page",
     pick_title: "Choose your language",
-    pick_text: "File transfer between phones, with a QR code or a code, no account.",
+    pick_text: "File transfer between phones, near or far, no account.",
 };
 
 // ----- Español ----------------------------------------------------------------------
 
 pub static ES: Texts = Texts {
-    meta_title: "LOCALINK — Transferencia de archivos entre teléfonos, con QR o con código",
-    meta_description: "Pasa archivos entre teléfonos por tu red local, o compártelos a distancia: borrados del servidor a los 2 minutos. Código QR o código, sin cuenta.",
+    meta_title: "LOCALINK — Transferencia de archivos entre teléfonos, cerca o lejos, con QR o con código",
+    meta_description: "Envía archivos de un teléfono a otro, en la misma red o a distancia. Código QR o código, a elegir, sin cuenta, borrados del servidor a los 2 minutos.",
     skip: "Ir al contenido",
     nav_how: "Cómo funciona",
     nav_features: "Ventajas",
@@ -889,16 +898,16 @@ pub static ES: Texts = Texts {
     nav_home: "Inicio",
     nav_menu: "Menú",
     nav_cta: "Descubrir",
-    loader: "Conectando a la red local…",
+    loader: "Conectando…",
     lang_label: "Idioma",
     hero_eyebrow: "Transferencia",
     hero_title: ["Tus archivos,", "de un teléfono a otro."],
     hero_send: "Envía tus",
     hero_words: ["fotos", "vídeos", "documentos", "canciones"],
-    hero_lead: "LOCALINK envía tus archivos directamente entre dos teléfonos de la misma red. Escanea un código QR o teclea un código para conectarte. ¿Estáis lejos? Comparte a través del servidor: todo se borra a los 2 minutos.",
+    hero_lead: "LOCALINK envía tus archivos de un teléfono a otro, estés donde estés. En la misma red pasan directamente; a distancia, por el servidor, que los borra a los 2 minutos. Para conectarte, tú eliges: código QR o código.",
     hero_primary: "Cómo funciona",
     hero_secondary: "La app para iPhone",
-    hero_badges: ["Sin cuenta", "QR o código", "Borrado en 2 min"],
+    hero_badges: ["Sin cuenta", "Cerca o lejos", "Borrado en 2 min"],
     hero_scroll: "Desliza",
     phone_sender: "Envío",
     phone_receiver: "Recepción",
@@ -910,26 +919,26 @@ pub static ES: Texts = Texts {
     marquee: [
         "Sin cuenta",
         "QR o código",
-        "Red local",
+        "Cerca o lejos",
         "Borrado a los 2 minutos",
-        "De dispositivo a dispositivo",
+        "Directo en red local",
         "Cualquier tipo de archivo",
     ],
     how_label: "Cómo funciona",
     how_title: "Tres gestos, cero registros.",
-    how_lead: "Ningún usuario que recordar: los dos teléfonos se encuentran con un código QR o un código corto y luego se comunican directamente.",
+    how_lead: "Ningún usuario que recordar: los dos teléfonos se unen con un código QR o con un código, a elegir, y luego intercambian.",
     steps: [
         item(
             "Abre LOCALINK",
-            "En los dos teléfonos, conectados a la misma red Wi‑Fi o al punto de acceso de uno de ellos.",
+            "En los dos teléfonos, uno al lado del otro o en la otra punta del país.",
         ),
         item(
-            "Escanea o teclea el código",
-            "El teléfono que recibe muestra un código QR y su código LOCALINK. El otro lo escanea, o teclea el código: ya estáis conectados.",
+            "QR o código, a elegir",
+            "El teléfono que recibe muestra su código QR y su código LOCALINK. El otro elige: escanear el QR o teclear el código.",
         ),
         item(
             "Envía",
-            "Elige tus archivos: pasan directamente de un dispositivo a otro, sin pasar por un servidor.",
+            "En la misma red, los archivos pasan directamente de un dispositivo a otro. A distancia, pasan por el servidor y se borran a los 2 minutos.",
         ),
     ],
     qr_caption: "Un código QR de verdad: escanéalo para abrir este sitio en tu teléfono.",
@@ -948,8 +957,11 @@ pub static ES: Texts = Texts {
     sim_note: "Demostración: nada sale de tu navegador.",
     share_label: "Compartir efímero",
     share_title: "A distancia, borrado en 2 minutos.",
-    share_lead: "¿No estáis en la misma red? Sube tu archivo al servidor de LOCALINK y da tu código. Tu contacto lo recoge y todo se borra automáticamente a los 2 minutos.",
+    share_lead: "¿No estáis juntos? Sube tu archivo al servidor de LOCALINK y comparte, a elegir, tu código o tu código QR. Tu contacto lo recoge y todo se borra automáticamente a los 2 minutos.",
     share_code_label: "Mi código LOCALINK",
+    share_choose: "Conectarse con",
+    share_tab_code: "Código",
+    share_tab_qr: "Código QR",
     share_new: "Nuevo código",
     share_copy: "Copiar el código",
     share_copied: "Código copiado",
@@ -971,7 +983,7 @@ pub static ES: Texts = Texts {
     ],
     feat_label: "Ventajas",
     feat_title: "Tan sencillo como un código QR.",
-    feat_lead: "Todo lo necesario para compartir un archivo con la persona que tienes delante, y nada más.",
+    feat_lead: "Todo lo necesario para compartir un archivo con alguien, a tu lado o lejos, y nada más.",
     features: [
         item(
             "Sin cuenta",
@@ -983,15 +995,15 @@ pub static ES: Texts = Texts {
         ),
         item(
             "Conexión por código",
-            "¿No quieres escanear? Teclea el código LOCALINK del otro teléfono y ya estáis conectados.",
+            "¿No quieres escanear? Elige el código: teclea el del otro teléfono y ya estáis conectados.",
         ),
         item(
-            "Red local",
-            "En local, la transferencia pasa directamente por tu Wi‑Fi o un punto de acceso, sin servidor ni Internet.",
+            "Directo en la red",
+            "En la misma Wi‑Fi o un punto de acceso, la transferencia va directamente de un teléfono a otro, sin servidor.",
         ),
         item(
-            "Compartir efímero",
-            "A distancia, el archivo pasa por el servidor de LOCALINK y se borra automáticamente a los 2 minutos.",
+            "Compartir a distancia",
+            "¿Estáis lejos? El archivo pasa por el servidor de LOCALINK y se borra automáticamente a los 2 minutos.",
         ),
         item(
             "No se guarda nada",
@@ -1024,7 +1036,7 @@ pub static ES: Texts = Texts {
     num_title: "Compartir, reducido a lo esencial.",
     numbers: [
         figure(0, "", "cuentas que crear"),
-        figure(1, "", "código QR o código para conectarse"),
+        figure(1, "", "código QR o código, a elegir"),
         figure(2, "min", "antes del borrado automático"),
         figure(0, "", "copias guardadas"),
     ],
@@ -1051,15 +1063,15 @@ pub static ES: Texts = Texts {
         ),
         item(
             "¿Cómo me conecto?",
-            "Escanea el código QR que muestra el otro teléfono, o teclea su código LOCALINK: los dos llevan a la misma conexión.",
-        ),
-        item(
-            "¿Mis archivos pasan por un servidor?",
-            "En local, no: van directamente de un teléfono a otro. Solo lo compartido a distancia pasa por el servidor de LOCALINK, y se borra a los 2 minutos.",
+            "Tú eliges: escanea el código QR que muestra el otro teléfono, o teclea su código LOCALINK. Los dos llevan a la misma conexión.",
         ),
         item(
             "¿Los dos teléfonos deben estar en la misma red?",
-            "Para la transferencia directa, sí: la misma Wi‑Fi o un punto de acceso. Si no, usa el compartir a distancia.",
+            "No. En la misma red, la transferencia es directa; si no, LOCALINK pasa por su servidor, con borrado automático a los 2 minutos.",
+        ),
+        item(
+            "¿Mis archivos pasan por un servidor?",
+            "En la misma red, no: van directamente de un teléfono a otro. A distancia, pasan por el servidor de LOCALINK y se borran a los 2 minutos.",
         ),
         item(
             "¿Qué pasa a los 2 minutos?",
@@ -1067,7 +1079,7 @@ pub static ES: Texts = Texts {
         ),
         item(
             "¿Hace falta conexión a Internet?",
-            "No para la transferencia local, que se queda en tu red. El compartir a distancia sí pasa por Internet.",
+            "En la misma red, la transferencia no la necesita. A distancia sí, porque el archivo pasa por el servidor.",
         ),
         item(
             "¿Qué archivos puedo enviar?",
@@ -1078,10 +1090,10 @@ pub static ES: Texts = Texts {
             "LOCALINK es una app nativa para iPhone, escrita en Swift.",
         ),
     ],
-    cta_title: "Comparte como hablas: cara a cara.",
-    cta_lead: "Un código QR o un código, y tus archivos cambian de teléfono. A distancia, se borran en 2 minutos.",
+    cta_title: "Comparte, uno al lado del otro o a distancia.",
+    cta_lead: "Un código QR o un código, a elegir, y tus archivos cambian de teléfono. A distancia, se borran en 2 minutos.",
     cta_button: "Ver cómo funciona",
-    footer_tagline: "Transferencia de archivos entre teléfonos: directa por la red local, o a distancia con borrado automático a los 2 minutos. Código QR o código, sin cuenta.",
+    footer_tagline: "Transferencia de archivos entre teléfonos, uno al lado del otro o a distancia. Código QR o código, a elegir, sin cuenta, borrado automático del servidor a los 2 minutos.",
     footer_product: "Producto",
     footer_resources: "Recursos",
     footer_legal: "Legal",
@@ -1135,7 +1147,7 @@ pub static ES: Texts = Texts {
         sections: &[
             item(
                 "Objeto",
-                "Este sitio presenta LOCALINK, una app para transferir archivos entre teléfonos por una red local.",
+                "Este sitio presenta LOCALINK, una app para transferir archivos entre teléfonos, en la misma red o a distancia.",
             ),
             item(
                 "Acceso",
@@ -1185,7 +1197,7 @@ pub static ES: Texts = Texts {
     nf_text: "Esta página no está en la red. Puede que haya cambiado de dirección.",
     nf_back: "Volver al inicio",
     pick_title: "Elige tu idioma",
-    pick_text: "Transferencia de archivos entre teléfonos, con QR o con código, sin cuenta.",
+    pick_text: "Transferencia de archivos entre teléfonos, cerca o lejos, sin cuenta.",
 };
 
 #[cfg(test)]

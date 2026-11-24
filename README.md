@@ -4,7 +4,7 @@
 
 # LOCALINK — Transfert
 
-**Transfert de fichiers entre téléphones sur le réseau, connexion par QR code ou par code, sans compte. À distance, le partage passe par le serveur de l'application et s'efface automatiquement après 2 minutes.**
+**Transfert de fichiers entre téléphones, côte à côte ou à distance. Connexion par QR code ou par code, au choix, sans compte. À distance, le partage passe par le serveur de l'application et s'efface automatiquement après 2 minutes.**
 
 **Français** · [English](#english) · [Español](#español)
 
@@ -37,17 +37,23 @@ Swift.
   consultable hors ligne.
 - **Pied de page complet** : produit, ressources, légal, contact, installation, langues,
   statut, retour en haut avec anneau de progression.
-- **Connexion par code et partage éphémère** : un vrai code LOCALINK et son QR code, régénérés
-  dans le navigateur, et un compte à rebours de 2 minutes (accéléré) jusqu'à l'effacement du
+- **Connexion par code ou par QR code, au choix, et partage éphémère** : un vrai code LOCALINK
+  et son QR code, régénérés dans le navigateur, un sélecteur « Code / QR code », et un compte à rebours de 2 minutes (accéléré) jusqu'à l'effacement du
   fichier sur le serveur.
 - **Pages légales** : confidentialité, conditions d'utilisation, mentions légales.
 - **Zéro cookie, zéro traceur** : polices et images servies par le site lui-même, CSP stricte.
+- **Compression maximale** : sur Heroku, toutes les réponses texte (pages, CSS, JavaScript,
+  WebAssembly, SVG, manifeste…) partent en **Brotli 11** (crate `brotli`), calculé une fois puis
+  gardé en mémoire, avec gzip pour les rares navigateurs sans Brotli. La feuille de style est
+  minifiée par `lightningcss` au déploiement et le WebAssembly compilé en `opt-level = "z"`.
+  Accueil : 106 Ko → 11 Ko, WebAssembly : 281 Ko → 98 Ko, CSS : 81 Ko → 13 Ko. GitHub Pages ne
+  permet pas de choisir la compression : il sert le site en gzip.
 
 ## Structure
 
 | Dossier | Contenu |
 |---|---|
-| [`site/src/server/`](site/src/server) | le serveur Paquets : pages, QR code, sitemap, export statique |
+| [`site/src/server/`](site/src/server) | le serveur Paquets : pages, sitemap, Brotli 11, minification, export statique |
 | [`site/src/client/`](site/src/client) | le bundle WebAssembly : canvas 2D, animations, installation PWA |
 | [`site/src/islands.rs`](site/src/islands.rs) | les îlots interactifs : simulateur de transfert, bouton d'installation |
 | [`site/src/i18n.rs`](site/src/i18n.rs) | tous les textes, en trois langues |
@@ -104,7 +110,7 @@ cargo fmt --check && cargo clippy --all-targets -- -D warnings && cargo test
 ## English
 
 The **presentation website** of LOCALINK — file transfer between phones on the local network,
-a QR code or a code to connect, no account; remote shares go through the app server and are erased after 2 minutes — written **only in Rust** with
+side by side or far apart, a QR code or a code to connect (your choice), no account; remote shares go through the app server and are erased after 2 minutes — written **only in Rust** with
 [Paquets](https://github.com/maxlestage/Paquets): server-rendered pages and a WebAssembly
 bundle for every animation (2D canvas network, transfer simulator, scroll reveals…). The
 iPhone app is written in Swift. Mobile first with no horizontal scrolling, French, English
@@ -116,7 +122,7 @@ automatically, then deployed.
 ## Español
 
 El **sitio de presentación** de LOCALINK — transferencia de archivos entre teléfonos por la
-red local, un código QR o un código para conectarse, sin cuenta; lo compartido a distancia pasa por el servidor de la app y se borra a los 2 minutos — escrito
+red local, cerca o lejos, un código QR o un código para conectarse (a elegir), sin cuenta; lo compartido a distancia pasa por el servidor de la app y se borra a los 2 minutos — escrito
 **solo en Rust** con [Paquets](https://github.com/maxlestage/Paquets): páginas generadas en el
 servidor y un bundle WebAssembly para todas las animaciones. La app de iPhone está escrita en
 Swift. Pensado primero para móvil y sin desplazamiento horizontal, en francés, inglés y

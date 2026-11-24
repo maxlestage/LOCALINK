@@ -192,3 +192,51 @@ async fn sitemap_and_robots() {
     let robots = client.get("/robots.txt").await.text();
     assert!(robots.contains("Sitemap: "));
 }
+
+#[tokio::test]
+async fn everything_is_compressed_with_brotli_at_its_best() {
+    let client = client().await;
+    for path in [
+        "/fr/",
+        "/en/privacy/",
+        "/site.css",
+        "/assets/logo.svg",
+        "/sw.js",
+        "/sitemap.xml",
+    ] {
+        let plain = client.get(path).await;
+        assert_eq!(plain.status(), 200, "{path}");
+        assert!(plain.header("content-encoding").is_none(), "{path}");
+        let plain = plain.bytes().to_vec();
+        let res = client
+            .get(path)
+            .header("accept-encoding", "gzip, deflate, br, zstd")
+            .await;
+        assert_eq!(res.status(), 200, "{path}");
+        assert_eq!(res.header("content-encoding"), Some("br"), "{path}");
+        assert!(
+            res.header("vary")
+                .unwrap_or_default()
+                .contains("accept-encoding"),
+            "{path}"
+        );
+        let compressed = res.bytes().to_vec();
+        let mut decoded = Vec::new();
+        brotli::BrotliDecompress(&mut compressed.as_slice(), &mut decoded).unwrap();
+        assert_eq!(decoded, plain, "{path}");
+        // Brotli 11 on the page itself, not the quick level of generated responses.
+        assert_eq!(
+            compressed,
+            *localink_site::server::compress::compressed(&plain).unwrap(),
+            "{path}"
+        );
+    }
+    // The browsers without Brotli get gzip; the fonts (WOFF2) are compressed already.
+    let gzip = client.get("/fr/").header("accept-encoding", "gzip").await;
+    assert_eq!(gzip.header("content-encoding"), Some("gzip"));
+    let font = client
+        .get("/fonts/inter.woff2")
+        .header("accept-encoding", "br")
+        .await;
+    assert!(font.header("content-encoding").is_none());
+}

@@ -2,7 +2,9 @@
 //! PWA. Static files come from `public/` and the browser bundle from `pkg/` (both found
 //! by Paquets in the current directory).
 
+pub mod compress;
 pub mod export;
+pub mod minify;
 pub mod pages;
 
 use std::io;
@@ -209,6 +211,9 @@ pub fn manifest() -> Pwa {
 /// The application, ready to run or to test.
 pub fn app(site: Arc<Site>) -> App {
     let mut app = App::new();
+    // Gzip for the browsers without Brotli, around Brotli 11 for all the others.
+    app.middleware(middleware::compress());
+    app.middleware(compress::brotli_best);
     app.get("/", |req: Request| async move { root(&req) });
     route(&mut app, "/sitemap.xml", &site, sitemap);
     route(&mut app, "/robots.txt", &site, robots);
@@ -234,6 +239,7 @@ pub fn run() -> io::Result<()> {
         std::env::set_current_dir(&dir)?;
     }
     let site = Arc::new(Site::load(std::env::var("SITE_URL").ok()));
+    compress::warm(&[Path::new("public"), Path::new("pkg")]);
     app(site).run()
 }
 
