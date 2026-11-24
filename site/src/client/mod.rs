@@ -4,6 +4,7 @@
 pub mod canvas;
 pub mod install;
 pub mod motion;
+pub mod share;
 
 use std::cell::RefCell;
 use std::rc::Rc;

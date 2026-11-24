@@ -2,9 +2,10 @@
 
 use paquets::prelude::*;
 
-use super::{Site, qr};
+use super::Site;
 use crate::i18n::{Lang, Legal, Texts};
 use crate::icons::{icon, logo};
+use crate::qr;
 use crate::routes::{Page as PageKind, Route, base, link};
 
 /// The repository of the project (source code, contact).
@@ -276,10 +277,11 @@ fn brand(ctx: &Ctx<'_>) -> Element {
 }
 
 /// The links of the home page sections.
-fn sections(ctx: &Ctx<'_>) -> [(String, &'static str); 5] {
+fn sections(ctx: &Ctx<'_>) -> [(String, &'static str); 6] {
     let t = ctx.t();
     [
         (ctx.anchor("how"), t.nav_how),
+        (ctx.anchor("share"), t.nav_share),
         (ctx.anchor("features"), t.nav_features),
         (ctx.anchor("privacy"), t.nav_privacy),
         (ctx.anchor("app"), t.nav_app),
@@ -333,6 +335,11 @@ fn navbar(ctx: &Ctx<'_>) -> Element {
                     })),
             )
             .child(languages(ctx, "langs nav__langs"))
+            .child(
+                a().class("btn btn--primary nav__try")
+                    .href(ctx.anchor("share"))
+                    .text(t.nav_try),
+            )
             .child(menu(ctx)),
     )
 }
@@ -526,6 +533,7 @@ pub fn home(ctx: &Ctx<'_>) -> Page {
         .child(marquee(ctx))
         .child(how(ctx))
         .child(demo(ctx))
+        .child(share(ctx))
         .child(features(ctx))
         .child(privacy(ctx))
         .child(numbers(ctx))
@@ -580,6 +588,10 @@ fn hero(ctx: &Ctx<'_>) -> Element {
             .child(span().class("phone__corners").attr("aria-hidden", "true"))
             .into(),
         p().class("phone__caption").text(t.phone_scan).into(),
+        p().class("phone__code")
+            .child(small().text(t.phone_code))
+            .child(strong().text(crate::islands::FIRST_CODE))
+            .into(),
         p().class("phone__connected")
             .child(icon("check"))
             .text(t.phone_connected)
@@ -828,14 +840,60 @@ fn demo(ctx: &Ctx<'_>) -> Element {
     )
 }
 
-fn features(ctx: &Ctx<'_>) -> Element {
+fn share(ctx: &Ctx<'_>) -> Element {
     let t = ctx.t();
-    let icons = ["user-off", "cloud-off", "qr", "wifi", "files", "swift"];
-    section().class("section features").id("features").child(
+    let step_icons = ["server", "key", "timer"];
+    section().class("section share-section").id("share").child(
         div()
             .class("container")
             .child(section_head(
                 "03",
+                t.share_label,
+                t.share_title,
+                Some(t.share_lead),
+            ))
+            .child(
+                ol().class("share-steps")
+                    .children(t.share_steps.iter().enumerate().map(|(i, step)| {
+                        li().class("share-step")
+                            .attr("data-reveal", "")
+                            .style(format!("--d:{}ms", i * 110))
+                            .child(span().class("share-step__icon").child(icon(step_icons[i])))
+                            .child(
+                                span()
+                                    .class("share-step__body")
+                                    .child(strong().text(step.title))
+                                    .child(span().text(step.text)),
+                            )
+                    })),
+            )
+            .child(
+                div()
+                    .class("share__frame")
+                    .attr("data-reveal", "")
+                    .style("--d:120ms")
+                    .child(island("share", ctx.lang().code(), crate::islands::share)),
+            ),
+    )
+}
+
+fn features(ctx: &Ctx<'_>) -> Element {
+    let t = ctx.t();
+    let icons = [
+        "user-off",
+        "qr",
+        "key",
+        "wifi",
+        "timer",
+        "cloud-off",
+        "files",
+        "swift",
+    ];
+    section().class("section features").id("features").child(
+        div()
+            .class("container")
+            .child(section_head(
+                "04",
                 t.feat_label,
                 t.feat_title,
                 Some(t.feat_lead),
@@ -867,6 +925,28 @@ fn features(ctx: &Ctx<'_>) -> Element {
 /// The diagram of a route: devices in a row, with packets moving along the path.
 fn route_svg(kind: &str, labels: &[&str]) -> String {
     let esc = |s: &str| s.replace('&', "&amp;").replace('<', "&lt;");
+    if kind == "remote" {
+        return format!(
+            concat!(
+                r#"<svg class="route__svg" viewBox="0 0 320 170" aria-hidden="true">"#,
+                r#"<path id="remote-path" class="route__path route__path--remote" d="M40 130 C40 60 110 52 160 52 C210 52 280 60 280 130"/>"#,
+                r#"<g class="route__packets route__packets--remote">"#,
+                r##"<circle r="4"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#remote-path"/></animateMotion></circle>"##,
+                r##"<circle r="4"><animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite"><mpath href="#remote-path"/></animateMotion></circle>"##,
+                r#"</g>"#,
+                r#"<g class="route__timer"><circle class="route__timer-bg" cx="160" cy="34" r="22"/><circle class="route__timer-fill" cx="160" cy="34" r="22" pathLength="100"/><path class="route__timer-hand" d="M160 34V20"/></g>"#,
+                r#"<g class="route__device route__device--ok"><rect x="24" y="112" width="32" height="48" rx="8"/></g>"#,
+                r#"<g class="route__device route__device--ok"><rect x="264" y="112" width="32" height="48" rx="8"/></g>"#,
+                r#"<text x="40" y="104" text-anchor="middle">{a}</text>"#,
+                r#"<text x="160" y="76" text-anchor="middle">{b}</text>"#,
+                r#"<text x="280" y="104" text-anchor="middle">{c}</text>"#,
+                r#"</svg>"#,
+            ),
+            a = esc(labels[0]),
+            b = esc(labels[1]),
+            c = esc(labels[2]),
+        );
+    }
     if kind == "cloud" {
         format!(
             concat!(
@@ -918,7 +998,7 @@ fn privacy(ctx: &Ctx<'_>) -> Element {
         div()
             .class("container")
             .child(section_head(
-                "04",
+                "05",
                 t.priv_label,
                 t.priv_title,
                 Some(t.priv_lead),
@@ -966,6 +1046,27 @@ fn privacy(ctx: &Ctx<'_>) -> Element {
                                 p().class("route__path-text")
                                     .text(t.priv_local_path.join(" ↔ ")),
                             ),
+                    )
+                    .child(
+                        figure()
+                            .class("route route--remote card")
+                            .attr("data-reveal", "")
+                            .style("--d:280ms")
+                            .child(
+                                figcaption()
+                                    .class("route__title")
+                                    .child(icon("timer"))
+                                    .child(span().text(t.priv_remote)),
+                            )
+                            .child(
+                                div()
+                                    .class("route__art")
+                                    .html(route_svg("remote", &t.priv_remote_path)),
+                            )
+                            .child(
+                                p().class("route__path-text")
+                                    .text(t.priv_remote_path.join(" → ")),
+                            ),
                     ),
             )
             .child(
@@ -994,7 +1095,7 @@ fn numbers(ctx: &Ctx<'_>) -> Element {
                         .child(
                             p().class("label")
                                 .attr("data-reveal", "")
-                                .child(span().class("label__num").text("05"))
+                                .child(span().class("label__num").text("06"))
                                 .child(span().class("label__line").attr("aria-hidden", "true"))
                                 .child(span().text(t.num_label)),
                         )
@@ -1082,7 +1183,7 @@ fn app_section(ctx: &Ctx<'_>) -> Element {
                 div()
                     .class("app__copy")
                     .child(section_head(
-                        "06",
+                        "07",
                         t.app_label,
                         t.app_title,
                         Some(t.app_lead),
@@ -1145,7 +1246,7 @@ fn faq(ctx: &Ctx<'_>) -> Element {
     section().class("section faq").id("faq").child(
         div()
             .class("container faq__grid")
-            .child(section_head("07", t.faq_label, t.faq_title, None))
+            .child(section_head("08", t.faq_label, t.faq_title, None))
             .child(
                 div()
                     .class("faq__list")

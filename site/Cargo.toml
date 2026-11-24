@@ -20,10 +20,13 @@ crate-type = ["cdylib", "rlib"]
 name = "localink-site"
 path = "src/main.rs"
 
+# QR codes, drawn by the server and by the browser (a new connection code).
+[dependencies]
+qrcode = { version = "0.15", default-features = false, features = ["std"] }
+
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 paquets = { git = "https://github.com/maxlestage/Paquets" }
 tokio = { version = "1.54", features = ["macros", "rt-multi-thread"] }
-qrcode = { version = "0.15", default-features = false, features = ["std"] }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 paquets = { git = "https://github.com/maxlestage/Paquets", default-features = false, features = ["client"] }
@@ -31,6 +34,7 @@ wasm-bindgen = "=0.2.130"
 js-sys = "0.3.107"
 web-sys = { version = "0.3.107", features = [
   "AddEventListenerOptions",
+  "Clipboard",
   "CanvasRenderingContext2d",
   "CssStyleDeclaration",
   "Document",

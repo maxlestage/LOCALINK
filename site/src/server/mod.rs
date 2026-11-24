@@ -4,7 +4,6 @@
 
 pub mod export;
 pub mod pages;
-pub mod qr;
 
 use std::io;
 use std::path::{Path, PathBuf};
