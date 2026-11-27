@@ -73,9 +73,10 @@ plus) :
 
 **Sans Mac** : chaque push compile l'app sur macOS (Xcode 26) dans la CI et garde une IPA non
 signée en artefact. Pour l'installer sur un iPhone, [`testflight.yml`](.github/workflows/testflight.yml)
-signe l'app dans le cloud et l'envoie sur **TestFlight** : il faut un compte Apple Developer, une
-clé API App Store Connect et quatre réglages GitHub, tous faisables depuis un téléphone (les
-étapes sont en tête du fichier).
+signe l'app dans le cloud et l'envoie sur **TestFlight** avec une clé API App Store Connect
+(secrets `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_P8`) : il crée lui-même l'identifiant de bundle
+`com.maxlestage.localink` et en lit le Team ID ([`ios/scripts/asc.py`](ios/scripts/asc.py)). Seule
+la fiche de l'app se crée à la main, une fois, dans App Store Connect.
 
 ## Structure
 
