@@ -63,6 +63,9 @@ plus) :
 - À côté, la connexion est chiffrée (TLS) avec une clé tirée du code : seul le téléphone qui
   connaît le code peut envoyer. À distance, le fichier ne vit que 2 minutes, en mémoire, sur le
   serveur (`/api/shares`), puis il est effacé.
+- **Réglages** : connexion par défaut (code ou QR code), mode par défaut (à côté ou à distance),
+  fichiers reçus, confidentialité, à propos et crédits ; écran de démarrage animé et présentation
+  au premier lancement (à revoir depuis les réglages).
 - Français, anglais, espagnol ; animations SwiftUI, réglage « réduire les animations » respecté.
 
 | Dossier | Contenu |

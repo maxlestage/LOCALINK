@@ -16,6 +16,9 @@ struct RootView: View {
             ReceivedListView()
                 .tabItem { Label("Reçus", systemImage: "folder.fill") }
                 .tag(2)
+            SettingsView()
+                .tabItem { Label("Réglages", systemImage: "gearshape.fill") }
+                .tag(3)
         }
     }
 }
@@ -38,7 +41,7 @@ struct ScreenHeader: View {
 }
 
 /// Side by side, or far apart.
-enum Distance: Hashable {
+enum Distance: String, Hashable {
     case nearby
     case remote
 }

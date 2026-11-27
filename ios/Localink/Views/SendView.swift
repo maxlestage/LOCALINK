@@ -18,7 +18,7 @@ final class SendModel {
     }
 
     var files: [PickedFile] = []
-    var distance = Distance.nearby
+    var distance = Preferences.defaultDistance
     var phase = Phase.choosing
     private var task: Task<Void, Never>?
 

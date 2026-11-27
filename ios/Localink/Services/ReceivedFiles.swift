@@ -43,6 +43,12 @@ final class ReceivedFiles {
         .sorted { $0.date > $1.date }
     }
 
+    /// Deletes every received file.
+    func deleteAll() {
+        for file in files { try? FileManager.default.removeItem(at: file.url) }
+        reload()
+    }
+
     func delete(_ file: ReceivedFile) {
         try? FileManager.default.removeItem(at: file.url)
         reload()

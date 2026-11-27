@@ -72,6 +72,7 @@ jobs:
             -destination 'generic/platform=iOS Simulator' -derivedDataPath build/sim \
             CODE_SIGNING_ALLOWED=NO build | xcbeautify --renderer github-actions
       - name: Launch in the simulator (screenshots)
+        timeout-minutes: 25
         run: |
           set -euo pipefail
           udid=$(xcrun simctl list devices available -j | python3 -c "import json,sys; d=json.load(sys.stdin)['devices']; print(next(x['udid'] for k, v in d.items() if 'iOS' in k for x in v if x['name'].startswith('iPhone')))")
@@ -79,14 +80,24 @@ jobs:
           xcrun simctl bootstatus "$udid" -b
           xcrun simctl install "$udid" build/sim/Build/Products/Debug-iphonesimulator/Localink.app
           mkdir -p build/screens
+          shot() { xcrun simctl io "$udid" screenshot "build/screens/$1.png"; }
+          alive() { xcrun simctl spawn "$udid" launchctl list | grep -q com.maxlestage.localink; }
+          # The splash, then the presentation of the first launch.
+          xcrun simctl launch --terminate-running-process "$udid" com.maxlestage.localink \
+            -hasSeenOnboarding NO -AppleLanguages "(fr)"
+          sleep 1
+          shot fr-splash
+          sleep 4
+          shot fr-onboarding
+          alive
           for lang in fr en es; do
-            for tab in 0 1 2; do
+            for tab in 0 1 2 3; do
               xcrun simctl launch --terminate-running-process "$udid" com.maxlestage.localink \
-                -tab "$tab" -AppleLanguages "($lang)"
+                -tab "$tab" -hasSeenOnboarding YES -AppleLanguages "($lang)"
               sleep 6
-              xcrun simctl io "$udid" screenshot "build/screens/$lang-tab$tab.png"
+              shot "$lang-tab$tab"
               # Still running: it did not crash.
-              xcrun simctl spawn "$udid" launchctl list | grep -q com.maxlestage.localink
+              alive
             done
           done
       - uses: actions/upload-artifact@v7

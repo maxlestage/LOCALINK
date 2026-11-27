@@ -2,7 +2,7 @@ import LocalinkCore
 import SwiftUI
 
 /// How a code is given or taken: as text or as a QR code, the user's choice.
-enum CodeMethod: Hashable {
+enum CodeMethod: String, Hashable {
     case code
     case qr
 }
@@ -26,7 +26,7 @@ struct CodeMethodPicker: View {
 struct CodeCard: View {
     let code: ConnectionCode
     var title: LocalizedStringKey = "Mon code LOCALINK"
-    @State private var method = CodeMethod.code
+    @State private var method = Preferences.defaultMethod
     @State private var copied = false
 
     var body: some View {
@@ -125,7 +125,7 @@ struct QRView: View {
 struct CodeEntryView: View {
     let title: LocalizedStringKey
     let onCode: (ConnectionCode) -> Void
-    @State private var method = CodeMethod.code
+    @State private var method = Preferences.defaultMethod
     @State private var text = ""
     @FocusState private var focused: Bool
 

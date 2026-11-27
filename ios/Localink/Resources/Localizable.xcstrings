@@ -23,6 +23,72 @@
         }
       }
     },
+    "App écrite en Swift et SwiftUI": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App written in Swift and SwiftUI"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App escrita en Swift y SwiftUI"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App écrite en Swift et SwiftUI"
+          }
+        }
+      }
+    },
+    "Aucun compte, aucun traceur, aucune publicité": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No account, no trackers, no ads"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin cuenta, sin rastreadores, sin publicidad"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun compte, aucun traceur, aucune publicité"
+          }
+        }
+      }
+    },
+    "Aucun compte, aucun traceur, aucune publicité.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No account, no trackers, no ads."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin cuenta, sin rastreadores, sin publicidad."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun compte, aucun traceur, aucune publicité."
+          }
+        }
+      }
+    },
     "Aucun fichier reçu": {
       "localizations": {
         "en": {
@@ -67,6 +133,28 @@
         }
       }
     },
+    "Bienvenue sur LOCALINK": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Welcome to LOCALINK"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Te damos la bienvenida a LOCALINK"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bienvenue sur LOCALINK"
+          }
+        }
+      }
+    },
     "Ce code ne mène à aucun partage, ou ses 2 minutes sont passées.": {
       "localizations": {
         "en": {
@@ -85,6 +173,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ce code ne mène à aucun partage, ou ses 2 minutes sont passées."
+          }
+        }
+      }
+    },
+    "Cette action est définitive.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This cannot be undone."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta acción es definitiva."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cette action est définitive."
           }
         }
       }
@@ -177,6 +287,138 @@
         }
       }
     },
+    "Code source sur GitHub": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source code on GitHub"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Código fuente en GitHub"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Code source sur GitHub"
+          }
+        }
+      }
+    },
+    "Commencer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Get started"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empezar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commencer"
+          }
+        }
+      }
+    },
+    "Conception et développement : Maxime Nathan Lestage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Design and development: Maxime Nathan Lestage"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diseño y desarrollo: Maxime Nathan Lestage"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conception et développement : Maxime Nathan Lestage"
+          }
+        }
+      }
+    },
+    "Conditions d'utilisation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terms of use"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Condiciones de uso"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conditions d'utilisation"
+          }
+        }
+      }
+    },
+    "Confidentialité": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacidad"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confidentialité"
+          }
+        }
+      }
+    },
+    "Connexion par défaut": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Default connection"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conexión por defecto"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connexion par défaut"
+          }
+        }
+      }
+    },
     "Copier le code": {
       "localizations": {
         "en": {
@@ -195,6 +437,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "Copier le code"
+          }
+        }
+      }
+    },
+    "Crédits": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Credits"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Créditos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crédits"
+          }
+        }
+      }
+    },
+    "Créé par": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Created by"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Creado por"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Créé par"
           }
         }
       }
@@ -463,6 +749,50 @@
         }
       }
     },
+    "Fichiers reçus": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Received files"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Archivos recibidos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fichiers reçus"
+          }
+        }
+      }
+    },
+    "Framework Paquets": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paquets framework"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Framework Paquets"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Framework Paquets"
+          }
+        }
+      }
+    },
     "La connexion a été refusée.": {
       "localizations": {
         "en": {
@@ -481,6 +811,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "La connexion a été refusée."
+          }
+        }
+      }
+    },
+    "La langue et les autorisations se règlent dans l'app Réglages d'iOS.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The language and the permissions are set in the iOS Settings app."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El idioma y los permisos se ajustan en la app Ajustes de iOS."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La langue et les autorisations se règlent dans l'app Réglages d'iOS."
+          }
+        }
+      }
+    },
+    "Langue, appareil photo et réseau local": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language, camera and local network"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Idioma, cámara y red local"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Langue, appareil photo et réseau local"
           }
         }
       }
@@ -705,6 +1079,50 @@
         }
       }
     },
+    "Loin l'un de l'autre ? Le fichier passe par le serveur et s'efface automatiquement au bout de 2 minutes.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Far apart? The file goes through the server and is erased automatically after 2 minutes."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Estáis lejos? El archivo pasa por el servidor y se borra automáticamente a los 2 minutos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loin l'un de l'autre ? Le fichier passe par le serveur et s'efface automatiquement au bout de 2 minutes."
+          }
+        }
+      }
+    },
+    "Mode par défaut": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Default mode"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modo por defecto"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mode par défaut"
+          }
+        }
+      }
+    },
     "Mon code LOCALINK": {
       "localizations": {
         "en": {
@@ -767,6 +1185,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nouveau code"
+          }
+        }
+      }
+    },
+    "Options": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Options"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Options"
           }
         }
       }
@@ -837,6 +1277,28 @@
         }
       }
     },
+    "Passer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skip"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saltar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passer"
+          }
+        }
+      }
+    },
     "Photos": {
       "localizations": {
         "en": {
@@ -855,6 +1317,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Photos"
+          }
+        }
+      }
+    },
+    "Politique de confidentialité": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy policy"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Política de privacidad"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Politique de confidentialité"
           }
         }
       }
@@ -921,6 +1405,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "QR code de %@"
+          }
+        }
+      }
+    },
+    "QR code ou code, au choix": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "QR code or code, your choice"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Código QR o código, a elegir"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "QR code ou code, au choix"
           }
         }
       }
@@ -1057,6 +1563,28 @@
         }
       }
     },
+    "Revoir la présentation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "See the presentation again"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Volver a ver la presentación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revoir la présentation"
+          }
+        }
+      }
+    },
     "Reçu !": {
       "localizations": {
         "en": {
@@ -1123,6 +1651,50 @@
         }
       }
     },
+    "Réglages": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réglages"
+          }
+        }
+      }
+    },
+    "Réseau : Network.framework d'Apple, TLS à clé partagée": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Network: Apple's Network.framework, pre-shared key TLS"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Red: Network.framework de Apple, TLS con clave compartida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réseau : Network.framework d'Apple, TLS à clé partagée"
+          }
+        }
+      }
+    },
     "S'efface dans": {
       "localizations": {
         "en": {
@@ -1141,6 +1713,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "S'efface dans"
+          }
+        }
+      }
+    },
+    "Sans compte": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No account"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin cuenta"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sans compte"
+          }
+        }
+      }
+    },
+    "Scanner : VisionKit · QR codes : Core Image": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scanner: VisionKit · QR codes: Core Image"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escáner: VisionKit · Códigos QR: Core Image"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scanner : VisionKit · QR codes : Core Image"
           }
         }
       }
@@ -1167,6 +1783,28 @@
         }
       }
     },
+    "Scannez le QR code de l'autre téléphone, ou tapez son code : les deux mènent à la même connexion.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan the other phone's QR code, or type its code: both lead to the same connection."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escanea el código QR del otro teléfono, o teclea su código: los dos llevan a la misma conexión."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scannez le QR code de l'autre téléphone, ou tapez son code : les deux mènent à la même connexion."
+          }
+        }
+      }
+    },
     "Se connecter avec": {
       "localizations": {
         "en": {
@@ -1189,6 +1827,94 @@
         }
       }
     },
+    "Serveur et site écrits en Rust avec Paquets": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Server and website written in Rust with Paquets"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Servidor y sitio escritos en Rust con Paquets"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Serveur et site écrits en Rust avec Paquets"
+          }
+        }
+      }
+    },
+    "Site web de LOCALINK": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LOCALINK website"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sitio web de LOCALINK"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Site web de LOCALINK"
+          }
+        }
+      }
+    },
+    "Suivant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siguiente"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suivant"
+          }
+        }
+      }
+    },
+    "Supprime de cet iPhone les %lld fichier(s) reçu(s).": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deletes the %lld received file(s) from this iPhone."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elimina de este iPhone los %lld archivo(s) recibido(s)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprime de cet iPhone les %lld fichier(s) reçu(s)."
+          }
+        }
+      }
+    },
     "Supprimer": {
       "localizations": {
         "en": {
@@ -1207,6 +1933,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Supprimer"
+          }
+        }
+      }
+    },
+    "Supprimer tous les fichiers": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete all files"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar todos los archivos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer tous les fichiers"
           }
         }
       }
@@ -1251,6 +1999,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sur l'autre téléphone : LOCALINK › Recevoir › À côté."
+          }
+        }
+      }
+    },
+    "Sur le même réseau, les fichiers passent directement d'un téléphone à l'autre, sans serveur.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On the same network, files go straight from one phone to the other, with no server."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En la misma red, los archivos pasan directamente de un teléfono a otro, sin servidor."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sur le même réseau, les fichiers passent directement d'un téléphone à l'autre, sans serveur."
           }
         }
       }
@@ -1343,6 +2113,94 @@
         }
       }
     },
+    "Version": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versión"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version"
+          }
+        }
+      }
+    },
+    "Vider les fichiers reçus": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete received files"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vaciar los archivos recibidos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vider les fichiers reçus"
+          }
+        }
+      }
+    },
+    "Vider les fichiers reçus ?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete the received files?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Vaciar los archivos recibidos?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vider les fichiers reçus ?"
+          }
+        }
+      }
+    },
+    "Vos fichiers, d'un téléphone à l'autre, près ou loin.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your files, from one phone to another, near or far."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tus archivos, de un teléfono a otro, cerca o lejos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vos fichiers, d'un téléphone à l'autre, près ou loin."
+          }
+        }
+      }
+    },
     "Votre code ou votre QR code, au choix": {
       "localizations": {
         "en": {
@@ -1361,6 +2219,31 @@
           "stringUnit": {
             "state": "translated",
             "value": "Votre code ou votre QR code, au choix"
+          }
+        }
+      }
+    },
+    "XXXX-XXXX": {
+      "shouldTranslate": false
+    },
+    "© 2026 Maxime Nathan Lestage. Tous droits réservés.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "© 2026 Maxime Nathan Lestage. All rights reserved."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "© 2026 Maxime Nathan Lestage. Todos los derechos reservados."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "© 2026 Maxime Nathan Lestage. Tous droits réservés."
           }
         }
       }
@@ -1387,6 +2270,28 @@
         }
       }
     },
+    "À côté, vos fichiers ne passent par aucun serveur": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nearby, your files go through no server"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerca, tus archivos no pasan por ningún servidor"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "À côté, vos fichiers ne passent par aucun serveur"
+          }
+        }
+      }
+    },
     "À distance": {
       "localizations": {
         "en": {
@@ -1405,6 +2310,50 @@
           "stringUnit": {
             "state": "translated",
             "value": "À distance"
+          }
+        }
+      }
+    },
+    "À distance, 2 minutes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Far away, 2 minutes"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A distancia, 2 minutos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "À distance, 2 minutes"
+          }
+        }
+      }
+    },
+    "À distance, ils sont effacés du serveur après 2 minutes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Far away, they are erased from the server after 2 minutes"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A distancia, se borran del servidor a los 2 minutos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "À distance, ils sont effacés du serveur après 2 minutes"
           }
         }
       }
@@ -1431,8 +2380,27 @@
         }
       }
     },
-    "XXXX-XXXX": {
-      "shouldTranslate": false
+    "À propos": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acerca de"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "À propos"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

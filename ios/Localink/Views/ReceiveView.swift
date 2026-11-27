@@ -97,7 +97,7 @@ final class ReceiveModel {
 struct ReceiveView: View {
     @Environment(ReceivedFiles.self) private var received
     @State private var model = ReceiveModel()
-    @State private var distance = Distance.nearby
+    @State private var distance = Preferences.defaultDistance
     @State private var pulse = false
 
     var body: some View {
