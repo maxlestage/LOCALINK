@@ -6,6 +6,7 @@ pub mod compress;
 pub mod export;
 pub mod minify;
 pub mod pages;
+pub mod shares;
 
 use std::io;
 use std::path::{Path, PathBuf};
@@ -214,6 +215,15 @@ pub fn app(site: Arc<Site>) -> App {
     // Gzip for the browsers without Brotli, around Brotli 11 for all the others.
     app.middleware(middleware::compress());
     app.middleware(compress::brotli_best);
+    // The shield of Paquets, with room for the files of the app (25 MiB).
+    app.security(
+        paquets::shield()
+            .guard(paquets::securite::prelude::BodyLimit::new(
+                shares::MAX_FILE as u64 + 64 * 1024,
+            ))
+            .build(),
+    );
+    shares::mount(&mut app);
     app.get("/", |req: Request| async move { root(&req) });
     route(&mut app, "/sitemap.xml", &site, sitemap);
     route(&mut app, "/robots.txt", &site, robots);
@@ -240,6 +250,7 @@ pub fn run() -> io::Result<()> {
     }
     let site = Arc::new(Site::load(std::env::var("SITE_URL").ok()));
     compress::warm(&[Path::new("public"), Path::new("pkg")]);
+    shares::start_purge();
     app(site).run()
 }
 

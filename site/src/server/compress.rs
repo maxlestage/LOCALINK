@@ -147,7 +147,9 @@ fn files(dir: &Path) -> Vec<std::path::PathBuf> {
 
 /// The middleware: Brotli 11 for every response worth it, when the browser accepts it.
 pub async fn brotli_best(req: Request, next: Next) -> Response {
-    let brotli = accepts_brotli(req.header("accept-encoding").unwrap_or(""));
+    // The files of the app's shares are sent as they came.
+    let brotli = accepts_brotli(req.header("accept-encoding").unwrap_or(""))
+        && !req.path().starts_with("/api/");
     let mut res = next.run(req).await;
     let headers = res.headers();
     let worth = brotli

@@ -985,6 +985,7 @@ name = "localink-site"
 version = "1.0.0"
 dependencies = [
  "brotli",
+ "getrandom 0.4.3",
  "js-sys",
  "lightningcss",
  "paquets",
