@@ -2,20 +2,19 @@
 # iPhone with the TestFlight app: no Mac needed, everything runs on GitHub's macOS
 # machines with an App Store Connect API key (Xcode's automatic signing in the cloud).
 #
-# One-time setup, from a phone (an Apple Developer account is required):
-#   1. App Store Connect → Apps → + → New app: iOS, name LOCALINK, bundle ID
-#      com.maxlestage.localink (create it in Certificates, Identifiers & Profiles if
-#      it is not offered), SKU localink.
-#   2. App Store Connect → Users and Access → Integrations → App Store Connect API →
-#      generate a key with the "App Manager" role; note its Key ID and the Issuer ID,
-#      download the .p8 file.
-#   3. GitHub → Settings → Secrets and variables → Actions:
-#        secret   APP_STORE_CONNECT_KEY_ID      the Key ID
-#        secret   APP_STORE_CONNECT_ISSUER_ID   the Issuer ID
-#        secret   APP_STORE_CONNECT_KEY         the content of the .p8 file
-#        variable APPLE_TEAM_ID                 your Team ID (Membership details)
-# Without them, the workflow stops with a notice. Started after every merge into
-# master by ci.yml, and by hand: Actions → TestFlight → Run workflow.
+# Setup (GitHub → Settings → Secrets and variables → Actions → Secrets):
+#   ASC_KEY_ID      the Key ID of an App Store Connect API key ("Admin" or "App Manager")
+#   ASC_ISSUER_ID   the Issuer ID shown above the keys
+#   ASC_KEY_P8      the content of its .p8 file
+# The workflow then creates the bundle ID com.maxlestage.localink if needed and reads the
+# Team ID from it (the optional variable APPLE_TEAM_ID overrides it).
+#
+# Once, by hand (Apple's API cannot do it): App Store Connect → Apps → + → New App,
+# platform iOS, any free name (e.g. LOCALINK), the bundle ID com.maxlestage.localink,
+# SKU localink. Until then the app is built and signed, but not uploaded.
+#
+# Started after every merge into master by ci.yml, and by hand: Actions → TestFlight →
+# Run workflow (GitHub app included).
 
 name: TestFlight
 
@@ -26,6 +25,9 @@ concurrency:
   group: testflight
   cancel-in-progress: false
 
+env:
+  BUNDLE_ID: com.maxlestage.localink
+
 jobs:
   upload:
     name: Build, sign and upload
@@ -34,16 +36,15 @@ jobs:
       run:
         working-directory: ios
     env:
-      KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
-      ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-      KEY: ${{ secrets.APP_STORE_CONNECT_KEY }}
-      TEAM_ID: ${{ vars.APPLE_TEAM_ID }}
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
     steps:
       - name: Check the setup
         id: setup
         working-directory: .
         run: |
-          if [ -z "$KEY_ID" ] || [ -z "$ISSUER_ID" ] || [ -z "$KEY" ] || [ -z "$TEAM_ID" ]; then
+          if [ -z "$ASC_KEY_ID" ] || [ -z "$ASC_ISSUER_ID" ] || [ -z "$ASC_KEY_P8" ]; then
             echo "::notice::TestFlight is not configured: see the comments of .github/workflows/testflight.yml."
             echo "ready=false" >> "$GITHUB_OUTPUT"
           else
@@ -51,22 +52,58 @@ jobs:
           fi
       - uses: actions/checkout@v7
         if: steps.setup.outputs.ready == 'true'
-      - name: Archive and upload
+      - name: Bundle ID, Team ID and app record
+        id: asc
         if: steps.setup.outputs.ready == 'true'
+        env:
+          TEAM_OVERRIDE: ${{ vars.APPLE_TEAM_ID }}
         run: |
           set -euo pipefail
-          key_path="$RUNNER_TEMP/AuthKey_$KEY_ID.p8"
-          printf '%s' "$KEY" > "$key_path"
-          auth=(-allowProvisioningUpdates -authenticationKeyPath "$key_path"
-                -authenticationKeyID "$KEY_ID" -authenticationKeyIssuerID "$ISSUER_ID")
+          team=$(python3 scripts/asc.py bundle "$BUNDLE_ID" "LOCALINK")
+          if [ -n "$TEAM_OVERRIDE" ]; then team="$TEAM_OVERRIDE"; fi
+          echo "Team ID: $team"
+          echo "team=$team" >> "$GITHUB_OUTPUT"
+          app=$(python3 scripts/asc.py app "$BUNDLE_ID")
+          echo "app=$app" >> "$GITHUB_OUTPUT"
+          if [ -z "$app" ]; then
+            echo "::warning::No app record for $BUNDLE_ID yet: App Store Connect → Apps → + → New App (iOS, bundle ID $BUNDLE_ID, SKU localink). The app is built and signed, not uploaded."
+          fi
+      - name: Archive (signed in the cloud)
+        if: steps.setup.outputs.ready == 'true'
+        env:
+          TEAM_ID: ${{ steps.asc.outputs.team }}
+        run: |
+          set -euo pipefail
+          key_path="$RUNNER_TEMP/AuthKey_$ASC_KEY_ID.p8"
+          python3 -c 'import os,sys; sys.path.insert(0,"scripts"); import asc; print(asc.pem(os.environ["ASC_KEY_P8"]), end="")' > "$key_path"
+          echo "AUTH_KEY=$key_path" >> "$GITHUB_ENV"
           brew install xcodegen
           xcodegen generate
           xcodebuild -project Localink.xcodeproj -scheme Localink -configuration Release \
             -destination 'generic/platform=iOS' -archivePath build/Localink.xcarchive \
             DEVELOPMENT_TEAM="$TEAM_ID" CURRENT_PROJECT_VERSION="$GITHUB_RUN_NUMBER" \
-            "${auth[@]}" archive | xcbeautify --renderer github-actions
+            -allowProvisioningUpdates -authenticationKeyPath "$key_path" \
+            -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            archive | xcbeautify --renderer github-actions
+      - name: Upload to TestFlight
+        if: steps.setup.outputs.ready == 'true'
+        env:
+          APP: ${{ steps.asc.outputs.app }}
+        run: |
+          set -euo pipefail
+          if [ -z "$APP" ]; then
+            plutil -replace destination -string export ExportOptions.plist
+          fi
           xcodebuild -exportArchive -archivePath build/Localink.xcarchive \
             -exportOptionsPlist ExportOptions.plist -exportPath build/export \
-            "${auth[@]}" | xcbeautify --renderer github-actions
-          echo "### 🚀 Build $GITHUB_RUN_NUMBER sent to TestFlight" >> "$GITHUB_STEP_SUMMARY"
-          rm -f "$key_path"
+            -allowProvisioningUpdates -authenticationKeyPath "$AUTH_KEY" \
+            -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            | xcbeautify --renderer github-actions
+          rm -f "$AUTH_KEY"
+          if [ -n "$APP" ]; then
+            echo "### 🚀 Build $GITHUB_RUN_NUMBER sent to TestFlight" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "### ✅ Signed, not uploaded: create the app in App Store Connect (bundle ID $BUNDLE_ID)" >> "$GITHUB_STEP_SUMMARY"
+            echo "::error::Create the app in App Store Connect (Apps → + → New App, bundle ID $BUNDLE_ID, SKU localink), then run this workflow again."
+            exit 1
+          fi
