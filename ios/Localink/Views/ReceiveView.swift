@@ -154,7 +154,7 @@ struct ReceiveView: View {
                         .foregroundStyle(Theme.green)
                         .symbolEffect(.bounce, value: names.count)
                     ForEach(names, id: \.self) { name in
-                        Label(name, systemImage: symbol(forExtension: (name as NSString).pathExtension))
+                        Label(name, systemImage: fileSymbol(forExtension: (name as NSString).pathExtension))
                             .lineLimit(1)
                     }
                     Text("Retrouvez-les dans l'onglet Reçus et dans l'app Fichiers.")
@@ -200,7 +200,7 @@ struct ReceiveView: View {
             VStack(spacing: 18) {
                 Card {
                     HStack(spacing: 12) {
-                        Image(systemName: symbol(forExtension: (info.name as NSString).pathExtension))
+                        Image(systemName: fileSymbol(forExtension: (info.name as NSString).pathExtension))
                             .font(.title2)
                             .frame(width: 48, height: 48)
                             .background(Theme.gradient, in: RoundedRectangle(cornerRadius: 14))

@@ -32,11 +32,11 @@ struct PickedFile: Identifiable, Hashable, Sendable {
     }
 
     /// The icon of its kind.
-    var symbol: String { symbol(forExtension: url.pathExtension) }
+    var symbol: String { fileSymbol(forExtension: url.pathExtension) }
 }
 
 /// The SF Symbol of a kind of file.
-func symbol(forExtension ext: String) -> String {
+func fileSymbol(forExtension ext: String) -> String {
     guard let type = UTType(filenameExtension: ext) else { return "doc" }
     if type.conforms(to: .image) { return "photo" }
     if type.conforms(to: .movie) || type.conforms(to: .video) { return "film" }

@@ -14,7 +14,7 @@ struct ReceivedListView: View {
                         preview = file.url
                     } label: {
                         HStack(spacing: 12) {
-                            Image(systemName: symbol(forExtension: file.url.pathExtension))
+                            Image(systemName: fileSymbol(forExtension: file.url.pathExtension))
                                 .frame(width: 40, height: 40)
                                 .background(Theme.gradient, in: RoundedRectangle(cornerRadius: 12))
                                 .foregroundStyle(Theme.background)
