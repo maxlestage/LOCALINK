@@ -82,6 +82,8 @@ struct CodeCard: View {
         }
         .padding(20)
         .frame(maxWidth: .infinity)
+        // A light card in a dark app: its controls take the light style, readable on white.
+        .environment(\.colorScheme, .light)
         .background(Color(red: 245 / 255, green: 247 / 255, blue: 1), in: RoundedRectangle(cornerRadius: 28, style: .continuous))
         .shadow(color: Theme.cyan.opacity(0.3), radius: 30, y: 12)
     }
