@@ -49,6 +49,34 @@ Swift.
   Accueil : 106 Ko → 11 Ko, WebAssembly : 281 Ko → 98 Ko, CSS : 81 Ko → 13 Ko. GitHub Pages ne
   permet pas de choisir la compression : il sert le site en gzip.
 
+## L'application iOS (Swift)
+
+Le dossier [`ios/`](ios) contient l'application iPhone, en **Swift 6 et SwiftUI** (iOS 17 et
+plus) :
+
+- **Envoyer** : photos, vidéos ou fichiers, puis **À côté** (en direct sur le même réseau, ou
+  par le Wi‑Fi pair-à-pair d'Apple) ou **À distance** (par le serveur, effacé après 2 minutes).
+- **Recevoir** : votre code LOCALINK et son QR code, **au choix**, pour un téléphone à côté ; ou
+  le code reçu d'un téléphone loin, tapé ou scanné, au choix.
+- **Reçus** : les fichiers reçus, à ouvrir, partager ou supprimer, aussi visibles dans l'app
+  Fichiers (« Sur mon iPhone › LOCALINK »).
+- À côté, la connexion est chiffrée (TLS) avec une clé tirée du code : seul le téléphone qui
+  connaît le code peut envoyer. À distance, le fichier ne vit que 2 minutes, en mémoire, sur le
+  serveur (`/api/shares`), puis il est effacé.
+- Français, anglais, espagnol ; animations SwiftUI, réglage « réduire les animations » respecté.
+
+| Dossier | Contenu |
+|---|---|
+| [`ios/LocalinkCore/`](ios/LocalinkCore) | le cœur en Swift pur (codes, protocole entre téléphones, client de l'API), testé sur macOS et Linux |
+| [`ios/Localink/`](ios/Localink) | l'app SwiftUI : écrans, réseau (Network.framework), scanner (VisionKit), ressources |
+| [`ios/project.yml`](ios/project.yml) | le projet Xcode, généré par XcodeGen sur les machines macOS de GitHub |
+
+**Sans Mac** : chaque push compile l'app sur macOS (Xcode 26) dans la CI et garde une IPA non
+signée en artefact. Pour l'installer sur un iPhone, [`testflight.yml`](.github/workflows/testflight.yml)
+signe l'app dans le cloud et l'envoie sur **TestFlight** : il faut un compte Apple Developer, une
+clé API App Store Connect et quatre réglages GitHub, tous faisables depuis un téléphone (les
+étapes sont en tête du fichier).
+
 ## Structure
 
 | Dossier | Contenu |

@@ -54,7 +54,7 @@ enum NearbyError: LocalizedError {
 }
 
 /// Resumes a continuation once, whatever calls it first (a result, a timeout…).
-final class Once<T>: @unchecked Sendable {
+final class Once<T: Sendable>: @unchecked Sendable {
     private let lock = NSLock()
     private var continuation: CheckedContinuation<T, Error>?
 
@@ -232,7 +232,7 @@ final class IncomingSession: @unchecked Sendable {
         connection.receive(minimumIncompleteLength: 1, maximumLength: 1 << 20) { @Sendable [self] data, _, isComplete, error in
             if let data, !data.isEmpty {
                 do {
-                    for frame in try decoder.feed(data) { try handle(frame) }
+                    for frame in try decoder.feed(data) { try process(frame) }
                 } catch {
                     fail(error.localizedDescription)
                     return
@@ -249,7 +249,7 @@ final class IncomingSession: @unchecked Sendable {
         }
     }
 
-    private func handle(_ frame: Frame) throws {
+    private func process(_ frame: Frame) throws {
         switch frame.kind {
         case .hello:
             let hello = try frame.decode(Hello.self)
@@ -314,7 +314,7 @@ final class NearbyListener {
             let session = IncomingSession(connection) { event in
                 Task { @MainActor in onEvent(event) }
             }
-            Task { @MainActor in self?.sessions.append(session) }
+            Task { @MainActor [weak self] in self?.sessions.append(session) }
             session.start()
         }
         listener.stateUpdateHandler = { @Sendable state in
