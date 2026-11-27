@@ -27,6 +27,8 @@ qrcode = { version = "0.15", default-features = false, features = ["std"] }
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 paquets = { git = "https://github.com/maxlestage/Paquets", features = ["compress"] }
 tokio = { version = "1.54", features = ["macros", "rt-multi-thread"] }
+# The codes and tokens of the shares of the app, from the system's random source.
+getrandom = "0.4"
 # Brotli at its best quality (11) for every response, kept once made.
 brotli = "9.1"
 # Minifies the stylesheet before it is deployed (`localink-site minify`).

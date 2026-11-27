@@ -2,6 +2,8 @@
 #
 # - site: format, clippy (server and browser), tests, the browser bundle
 #   (WebAssembly) and the static export;
+# - ios: the tests of the Swift core, then the iOS app built with Xcode (simulator
+#   and iPhone, unsigned), kept as an artifact;
 # - merge: when everything is green, the branch is merged into master (except master
 #   itself and branches named wip/...), then GitHub Pages and Heroku are deployed: a
 #   push made by a workflow starts no other workflow, so they are started explicitly.
@@ -49,9 +51,67 @@ jobs:
       - name: Static export
         run: BASE_PATH="/${{ github.event.repository.name }}" cargo run --release -- export dist
 
+  ios:
+    name: iOS app (Swift, Xcode)
+    runs-on: macos-26
+    defaults:
+      run:
+        working-directory: ios
+    steps:
+      - uses: actions/checkout@v7
+      - name: Core tests (codes, protocol, share API)
+        run: swift test --package-path LocalinkCore
+      - name: Generate the Xcode project
+        run: |
+          brew install xcodegen
+          xcodegen generate
+      - name: Build for the simulator
+        run: |
+          set -o pipefail
+          xcodebuild -project Localink.xcodeproj -scheme Localink -configuration Debug \
+            -destination 'generic/platform=iOS Simulator' -derivedDataPath build/sim \
+            CODE_SIGNING_ALLOWED=NO build | xcbeautify --renderer github-actions
+      - name: Launch in the simulator (screenshots)
+        run: |
+          set -euo pipefail
+          udid=$(xcrun simctl list devices available -j | python3 -c "import json,sys; d=json.load(sys.stdin)['devices']; print(next(x['udid'] for k, v in d.items() if 'iOS' in k for x in v if x['name'].startswith('iPhone')))")
+          xcrun simctl boot "$udid"
+          xcrun simctl bootstatus "$udid" -b
+          xcrun simctl install "$udid" build/sim/Build/Products/Debug-iphonesimulator/Localink.app
+          mkdir -p build/screens
+          for lang in fr en es; do
+            for tab in 0 1 2; do
+              xcrun simctl launch --terminate-running-process "$udid" com.maxlestage.localink \
+                -tab "$tab" -AppleLanguages "($lang)"
+              sleep 6
+              xcrun simctl io "$udid" screenshot "build/screens/$lang-tab$tab.png"
+              # Still running: it did not crash.
+              xcrun simctl spawn "$udid" launchctl list | grep -q com.maxlestage.localink
+            done
+          done
+      - uses: actions/upload-artifact@v7
+        with:
+          name: Localink-screenshots
+          path: ios/build/screens
+          retention-days: 14
+      - name: Build for iPhone (Release, unsigned)
+        run: |
+          set -o pipefail
+          xcodebuild -project Localink.xcodeproj -scheme Localink -configuration Release \
+            -destination 'generic/platform=iOS' -derivedDataPath build/device \
+            CODE_SIGNING_ALLOWED=NO build | xcbeautify --renderer github-actions
+          mkdir -p build/Payload
+          cp -R build/device/Build/Products/Release-iphoneos/Localink.app build/Payload/
+          (cd build && zip -qr Localink-unsigned.ipa Payload)
+      - uses: actions/upload-artifact@v7
+        with:
+          name: Localink-unsigned
+          path: ios/build/Localink-unsigned.ipa
+          retention-days: 14
+
   merge:
     name: Merge into master
-    needs: [site]
+    needs: [site, ios]
     if: >-
       github.event_name == 'push' && github.ref_name != 'master' &&
       !startsWith(github.ref_name, 'wip/')
@@ -89,3 +149,4 @@ jobs:
         run: |
           gh workflow run pages.yml --ref master --repo "$GITHUB_REPOSITORY"
           gh workflow run heroku.yml --ref master --repo "$GITHUB_REPOSITORY"
+          gh workflow run testflight.yml --ref master --repo "$GITHUB_REPOSITORY"
