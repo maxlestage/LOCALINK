@@ -69,6 +69,8 @@ struct SplashView: View {
             try? await Task.sleep(for: .milliseconds(520))
             phase = 3
             try? await Task.sleep(for: .milliseconds(750))
+            // `-holdSplash YES` at launch keeps it on screen (the CI's screenshot).
+            if UserDefaults.standard.bool(forKey: "holdSplash") { return }
             onFinish()
         }
     }

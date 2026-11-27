@@ -82,12 +82,14 @@ jobs:
           mkdir -p build/screens
           shot() { xcrun simctl io "$udid" screenshot "build/screens/$1.png"; }
           alive() { xcrun simctl spawn "$udid" launchctl list | grep -q com.maxlestage.localink; }
-          # The splash, then the presentation of the first launch.
+          # The splash (held on screen), then the presentation of the first launch.
+          xcrun simctl launch --terminate-running-process "$udid" com.maxlestage.localink \
+            -holdSplash YES -AppleLanguages "(fr)"
+          sleep 4
+          shot fr-splash
           xcrun simctl launch --terminate-running-process "$udid" com.maxlestage.localink \
             -hasSeenOnboarding NO -AppleLanguages "(fr)"
-          sleep 1
-          shot fr-splash
-          sleep 4
+          sleep 5
           shot fr-onboarding
           alive
           for lang in fr en es; do
