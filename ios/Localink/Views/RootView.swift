@@ -2,7 +2,8 @@ import SwiftUI
 
 /// Three tabs: send, receive, and the files received.
 struct RootView: View {
-    @State private var tab = 0
+    /// The tab to open: the first one, or `-tab 1` at launch (the CI's screenshots).
+    @State private var tab = UserDefaults.standard.integer(forKey: "tab")
 
     var body: some View {
         TabView(selection: $tab) {
